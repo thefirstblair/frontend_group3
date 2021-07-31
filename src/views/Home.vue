@@ -1,15 +1,11 @@
 <template>
-  <hello-world />
+  <v-main>
+    <h1>หน้าหลัก</h1>
+  </v-main>
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
-
   export default {
-    name: 'Home',
 
-    components: {
-      HelloWorld,
-    },
   }
 </script>

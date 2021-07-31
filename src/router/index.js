@@ -17,6 +17,20 @@ const routes = [
     component: function () {
       return import('../views/Reward.vue')
     }
+  },
+  {
+    path: '/leaderboard',
+    name: 'Leaderboard',
+    component: function () {
+      return import('../views/Leaderboard.vue')
+    }
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: function () {
+      return import('../views/History.vue')
+    }
   }
 ]
 
