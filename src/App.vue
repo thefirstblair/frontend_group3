@@ -7,10 +7,12 @@
       >
         <v-app-bar-nav-icon @click="drawer = true" ></v-app-bar-nav-icon>
         <v-toolbar-title>TypeWriter</v-toolbar-title>
+
         <v-spacer></v-spacer>
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
+        <v-btn icon x-large>
+          Login
         </v-btn>
+        
       </v-app-bar>
 
       <v-navigation-drawer
@@ -18,8 +20,7 @@
         absolute
         temporary
       >
-        <v-list
-          nav
+        <v-list nav
           dense
         >
           <v-list-item-group
@@ -68,9 +69,9 @@
           </v-btn>
         </div>
       </v-navigation-drawer>
-      <v-container grid-list-xs>
+      <v-content>
         <router-view/>
-      </v-container>
+      </v-content>
     </v-main>
   </v-app>
 </template>
