@@ -1,6 +1,6 @@
 <template>
-<div>
-  <v-container fill-height>
+  <div>
+    <v-container fill-height>
         <v-row
           align="center"
           class="white--text"
@@ -15,79 +15,83 @@
               Leaderboard
             </span>
           </v-col>
+          <v-col
+            class="white--text text-center"
+            cols="12"
+            tag="h1"
+          >
+          <v-card color="basil">
+            <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+              <v-tab v-for="item in items"
+                :key="item.tab"
+              >
+                {{ item.tab }}
+              </v-tab>
+            </v-tabs>
+
+            <v-tabs-items v-model="tab">
+              <v-tab-item
+                v-for="item in items"
+                :key="item.tab"
+              >
+                <v-card
+                  color="basil"
+                  flat
+                >
+                
+                  <v-card >
+                    
+                    <TableCompo :data="item.data" :headtext="item.content" />
+                      
+                  </v-card>
+                  
+                </v-card>
+              </v-tab-item>
+            </v-tabs-items>
+            </v-card>
+          </v-col>
         </v-row>
-  </v-container>
-
-  
-    <div class="leaderboard">
-      
-    <v-simple-table fixed-header height="600px">
-    <template>
-      <thead>
-        <tr>
-          <th class="text-left" scope="col">
-            Rank
-          </th>
-
-          <th class="text-left" scope="col">
-            Username
-          </th>
-
-          <th class="text-left" scope="col">
-            Point
-          </th>
-          
-        </tr>
-      </thead>
-      <tbody>
-          <tr v-for="item in item" :key="item.username">
-          <td>{{++i}}</td>
-          <td>{{ item.username }}</td>
-          <td>{{ item.point }}</td>
-        </tr>
-      </tbody>
-    </template>
-    </v-simple-table>
+    </v-container>
   </div>
-</div>
 </template>
 
 <script>
-  export default {
-      data() {
-          return {
-              item: [
-                  { username: 'Player 1', point:1000 },
-                  { username: 'Player 2', point:250 },
-                  { username: 'Player 3', point:30},
-                  { username: 'Player 4', point:10},
-                  { username: 'Player 5', point:500},
-                  { username: 'Player 6', point:900},
-                  { username: 'Player 7', point:1200}
-              ]  
-          }
-      },
-  }
 
+import TableCompo from '../components/TableCompo.vue'
+
+export default {
+    components:{TableCompo},
+    data () {
+      return {
+        tab: null,
+        items: [
+          { tab: 'Earn Points', content: 'EarnPoints', 
+          data: [
+            { username: 'Player 1', point:1000 },
+            { username: 'Player 2', point:250 },
+            { username: 'Player 3', point:30},
+            { username: 'Player 4', point:10},
+            { username: 'Player 5', point:500},
+            { username: 'Player 6', point:900},
+            { username: 'Player 7', point:1200}
+          ]},
+          { tab: 'Loss Points', content: 'LossPoints',
+          data:[
+            { username: 'Player 1', point:-1000 },
+            { username: 'Player 2', point:-250 },
+            { username: 'Player 3', point:-30},
+            { username: 'Player 4', point:-10},
+            { username: 'Player 5', point:-500},
+            { username: 'Player 6', point:-900},
+            { username: 'Player 7', point:-1200}
+          ] }
+        ],
+      }
+    }
+
+}
 </script>
 
 <style>
-    .leaderboard{
-      
-        width:80%;
-        height:80vh;
-        border-radius: 1vh;
-        padding:3vh;
-        overflow: auto;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 0px;   
-    }
-   
-    
-
-    
-    
 
 </style>
-
