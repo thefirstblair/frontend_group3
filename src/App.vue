@@ -69,9 +69,14 @@
           </v-btn>
         </div>
       </v-navigation-drawer>
+      <v-img
+        :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
+        src="https://www.teahub.io/photos/full/96-966323_minimalist-wallpapers-minimal-background.jpg"
+      >
       <v-content>
         <router-view/>
       </v-content>
+      </v-img>
     </v-main>
   </v-app>
 </template>
@@ -86,3 +91,7 @@ export default {
   }),
 };
 </script>
+
+<style>
+
+</style>
