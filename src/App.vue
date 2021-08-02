@@ -49,6 +49,13 @@
               <v-list-item-title>Reward</v-list-item-title>
             </v-list-item>
 
+            <v-list-item to="/rewardManager"> 
+              <v-list-item-icon>
+                <v-icon>mdi-cog </v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Reward Manager</v-list-item-title>
+            </v-list-item>
+
             <v-list-item to="/history">
               <v-list-item-icon>
                 <v-icon>mdi-table</v-icon>

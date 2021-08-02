@@ -19,6 +19,12 @@ const routes = [
     component: function() {
       return import("../views/Reward.vue");
     },
+  },  {
+    path: "/rewardManager",
+    name: "RewardManager",
+    component: function() {
+      return import("../views/RewardManager.vue");
+    },
   },
   {
     path: "/leaderboard",
@@ -27,6 +33,7 @@ const routes = [
       return import("../views/Leaderboard.vue");
     },
   },
+
   {
     path: "/history",
     name: "History",
