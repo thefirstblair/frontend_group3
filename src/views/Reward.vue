@@ -1,5 +1,82 @@
 <template>
-  <div>
-    <h1>หน้ารับของรางวัล</h1>
-  </div>
+  <v-app id="inspire">
+          <v-row
+          align="center"
+          class="white--text"
+          justify="center"
+        >
+          <v-col
+            class="black--text text-center"
+            cols="12"
+            tag="h1"
+          >
+            <span class="font-weight-black" style="font-size: 200%" >
+              Redeem Reward
+            </span>
+          </v-col>
+          </v-row>
+          
+    <v-main>
+      <v-container>
+        <v-row>
+          <v-col
+            v-for="item in items"
+            :key="item"
+            cols="3"
+          >
+            <v-card class="mb-2" height="200" width="200">
+              <v-row align="start">
+                    <v-col class="shrink">
+                         <v-img :src= item.picture  max-height="200" max-width="200" class="ml-3"  ></v-img>
+                    </v-col>
+                 </v-row>
+            </v-card>
+          
+          <div>
+          <br>
+          <label for="name">Name: <td>{{ item.name }}</td> </label>
+           <br>
+          <label for="points">Points: <td>{{ item.points }}</td></label>
+           <br>
+           <label for="amount">Amount: <td>{{ item.amount }}</td> </label>
+          </div>
+
+          <br>
+          <v-btn @click="redeemReward">Redeem Reward</v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
+
+<script>
+  export default {
+    data() {
+      return  {
+        items: [ {name: 'My Melody Doll', points: 5000, amount: 2, picture: "https://s-media-cache-ak0.pinimg.com/originals/d9/81/bf/d981bfc4892112521efb88e880f86e20.png"},
+        {name: 'Kuromi Doll', points: 3000, amount: 10, picture: "https://sites.google.com/site/tawkartunsanrixoyxdhit04/_/rsrc/1517160022195/kuromi/a0410c5472371291fe4e4d7028610550.png"},
+        {name: 'Kitty Doll', points: 1000, amount: 4, picture: "http://f.lnwfile.com/7mgmwg.png"}
+        ]
+      }
+
+    }
+    , redeemReward(){}
+    
+  }
+</script>
+
+<style>
+v-container{
+        width:80%;
+        height:80vh;
+        border-radius: 1vh;
+        padding:3vh;
+        overflow: auto;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 0px;  
+        background-color: aqua;
+}
+
+</style>
