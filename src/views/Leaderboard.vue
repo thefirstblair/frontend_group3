@@ -77,14 +77,14 @@ export default {
           ]},
           { tab: 'Loss Points', content: 'LossPoints',
           data:[
-            { username: 'Player 1', point:-1000 },
-            { username: 'Player 2', point:-250 },
-            { username: 'Player 3', point:-30},
-            { username: 'Player 4', point:-10},
-            { username: 'Player 5', point:-500},
-            { username: 'Player 6', point:-900},
-            { username: 'Player 7', point:-1200}
-          ] }
+            { username: 'Player 1', point:1000 },
+            { username: 'Player 2', point:250 },
+            { username: 'Player 3', point:30},
+            { username: 'Player 4', point:10},
+            { username: 'Player 5', point:500},
+            { username: 'Player 6', point:900},
+            { username: 'Player 7', point:1200}
+          ] }, 
         ],
       }
     }

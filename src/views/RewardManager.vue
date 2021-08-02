@@ -109,7 +109,7 @@
       <img class="rewards-image" :src="item.image" :alt="item.name" align-center>
     </template>
 
-    <template v-slot:item.actions="{item}">
+    <template v-slot:item.actions="{ item }">
       <v-icon
         small
         class="mr-2"
@@ -182,27 +182,7 @@ export default {
 
     methods: {
       initialize () {
-        this.rewards = [
-          {
-            image: "https://s-media-cache-ak0.pinimg.com/originals/d9/81/bf/d981bfc4892112521efb88e880f86e20.png",
-            name: 'My Melody Doll',
-            points: 5000,
-            amount: 2,
-          },
-          {
-            image: "https://sites.google.com/site/tawkartunsanrixoyxdhit04/_/rsrc/1517160022195/kuromi/a0410c5472371291fe4e4d7028610550.png"
-            ,name: 'Kuromi Doll',
-            points: 3000,
-            amount: 10,
-          },          
-          {
-            image: "http://f.lnwfile.com/7mgmwg.png" ,
-            name: 'Kitty Doll',
-            points: 1000,
-            amount: 4,
-          },
-        
-        ]
+        this.rewards = this.$store.state.rewards
       },
 
       editItem (item) {
@@ -218,7 +198,7 @@ export default {
       },
 
       deleteItemConfirm () {
-        this.rewards.splice(this.editedIndex, 1)
+        this.$store.commit('removeReward',this.editedIndex)
         this.closeDelete()
       },
 
@@ -241,8 +221,12 @@ export default {
       save () {
         if (this.editedIndex > -1) {
           Object.assign(this.rewards[this.editedIndex], this.editedItem)
+          this.$store.commit('editReward',{
+            index: index,
+            data: this.editedItem
+          })
         } else {
-          this.rewards.push(this.editedItem)
+          this.$store.commit('addReward',this.editedItem)
         }
         this.close()
       },
