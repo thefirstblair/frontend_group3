@@ -3,7 +3,10 @@
   
     <div class="leaderboard">
       
-    <v-simple-table fixed-header height="600px">
+    <v-simple-table
+        fixed-header 
+        height="600px"
+    >
         <thead>
             <tr>
             <th scope="col">
@@ -21,8 +24,8 @@
             </tr>
         </thead>
         <tbody style="text-align:left;">
-            <tr v-for="(item,index) in data" :key="index">
-            <td>{{ index }}</td>
+            <tr v-for="(item,index) in sortedArray" :key="index">
+            <td>{{ index + 1 }}</td>
             <td>{{ item.username }}</td>
             <td>{{ item.point }}</td>
             </tr>
@@ -35,7 +38,12 @@
 <script>
   export default {
       props:['data','headtext'],
-  }
+      computed:{
+        sortedArray(){
+            return this.data.sort((a, b) => b.point - a.point );
+        }
+      }
+    }
 
 </script>
 
