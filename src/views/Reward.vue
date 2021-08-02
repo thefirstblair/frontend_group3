@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-app id="inspire">
           <v-row
           align="center"
@@ -47,7 +48,46 @@
         </v-row>
       </v-container>
     </v-main>
+
+<div class="rewardTable">
+ <v-simple-table>
+    <template>
+      <thead>
+        <tr>
+          <th class="text-left" scope="col">
+            Name
+          </th>
+
+          <th class="text-left" scope="col">
+            Points
+          </th>
+
+          <th class="text-left" scope="col">
+            Amount
+          </th>
+
+        
+        </tr>
+      </thead>
+      <tbody>
+          <tr v-for="item in items" :key="item.name">
+          <td>{{ item.name }}</td>
+          <td>{{ item.points }}</td>
+          <td>{{ item.amount }}</td>
+        
+        </tr>
+      </tbody>
+    </template>
+    </v-simple-table>
+</div>
+
+
   </v-app>
+  </div>
+   
+    
+   
+
 </template>
 
 <script>
@@ -67,16 +107,16 @@
 </script>
 
 <style>
-v-container{
+.rewardTable{
         width:80%;
-        height:80vh;
+        height:50vh;
         border-radius: 1vh;
         padding:3vh;
         overflow: auto;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 0px;  
-        background-color: aqua;
+        margin-top: 0px;   
+      background-color: beige;
 }
 
 </style>
