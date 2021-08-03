@@ -30,7 +30,9 @@
         v-model="confirmPassword"
       ></v-text-field>
       <div class="Login">
-        <v-btn @click="loginClick" block> Login </v-btn>
+        <v-btn @click="loginClick" block> Login as admin </v-btn>
+        <v-btn @click="loginClick1" block> Login </v-btn>
+        <v-btn @click="getAllData" block> get </v-btn>
       </div>
     </v-col>
   </div>
@@ -50,10 +52,12 @@ export default {
         min: (v) => v.length >= 8 || "Min 8 characters",
         emailMatch: () => `The email and password you entered don't match`,
       },
+      tokenData: "",
+      profile: "",
     };
   },
   methods: {
-    loginClick(e) {
+    loginClick1(e) {
       console.log("button clicked");
 
       Axios.post("http://localhost:1337/auth/local", {
@@ -63,10 +67,38 @@ export default {
         .then((response) => {
           console.log("User profile", response.data.user);
           console.log("User token", response.data.jwt);
+          this.token = response.data.user;
+          this.profile = response.data.jwt;
         })
         .catch((error) => {
           console.log("An error occurred:", error.response);
         });
+    },
+    loginClick(e) {
+      console.log("button clicked");
+
+      Axios.post("http://localhost:1337/auth/local", {
+        identifier: "admin",
+        password: "admin1",
+      })
+        .then((response) => {
+          console.log("User profile", response.data.user);
+          console.log("User token", response.data.jwt);
+          this.tokenData = response.data.jwt;
+          this.profile = response.data.user;
+        })
+        .catch((error) => {
+          console.log("An error occurred:", error.response);
+        });
+    },
+    getAllData() {
+      const token = this.tokenData;
+      console.log(token);
+      Axios.get("http://localhost:1337/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     },
   },
 };
