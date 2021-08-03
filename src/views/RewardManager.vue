@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <div></div>
     <v-data-table
       :headers="headers"
       :items="rewards"
@@ -51,6 +52,15 @@
                         v-model="editedItem.image"
                         label="Image URL"
                       ></v-text-field>
+
+                      <input
+                        type="file"
+                        @change="handleChange"
+                        class="bg-yellow-300"
+                      />
+                      <button class="bg-white m-10" @click="uploadPic">
+                        click
+                      </button>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -88,7 +98,7 @@
       <template v-slot:item.image="{ item }">
         <img
           class="rewards-image"
-          :src="item.image"
+          :src="'http://localhost:1337' + item.picture.url"
           :alt="item.name"
           align-center
         />
@@ -104,11 +114,15 @@
 
 
 <script>
-import Axios from 'axios'
-import HistoriesStore from '@/store/Histories'
+import Axios from "axios";
+import RewardStore from "@/store/Reward";
 export default {
   name: "Rewards",
   data: () => ({
+    resData: "",
+    file: "",
+    tokenData: "",
+    uploadPercentage: 0,
     dialog: false,
     dialogDelete: false,
     headers: [
@@ -156,11 +170,39 @@ export default {
 
   created() {
     this.initialize();
+    Axios.post("http://localhost:1337/auth/local", {
+      identifier: "admin",
+      password: "admin1",
+    })
+      .then((response) => {
+        console.log("User profile", response.data.user);
+        console.log("User token", response.data.jwt);
+        this.tokenData = response.data.jwt;
+        console.log(this.tokenData);
+      })
+      .catch((error) => {
+        console.log("An error occurred:", error.response);
+      });
   },
 
   methods: {
-    initialize() {
-      this.rewards = this.$store.state.rewards;
+    async initialize() {
+      // this.rewards = this.$store.state.rewards;
+      try {
+        let response = await Axios.post("http://localhost:1337/auth/local", {
+          identifier: "admin",
+          password: "admin1",
+        });
+        console.log("User profile", response.data.user);
+        console.log("User token", response.data.jwt);
+        this.token = response.data.jwt;
+        this.profile = response.data.user;
+      } catch (error) {
+        console.log("An error occurred:", error.response);
+      }
+      await RewardStore.dispatch("fetchRewards", this.token);
+      this.rewards = RewardStore.getters.rewards;
+      console.log(this.rewards);
     },
 
     editItem(item) {
@@ -196,19 +238,63 @@ export default {
       });
     },
 
-    save() {
+    async save() {
       if (this.editedIndex > -1) {
         Object.assign(this.rewards[this.editedIndex], this.editedItem);
         this.$store.commit("editReward", {
-          index: index,
+          index: this.editedIndex,
           data: this.editedItem,
         });
       } else {
-        this.$store.commit("addReward", this.editedItem);
+        // this.$store.commit("addReward", this.editedItem);
+        this.postReward(this.resData);
+        await RewardStore.dispatch("fetchRewards", this.token);
+        this.rewards = RewardStore.getters.rewards;
+        console.log(this.rewards);
       }
       this.dialog = false;
     },
+    handleChange(event) {
+      console.log("file to upload", event.target.files);
+      this.file = event.target.files[0];
+    },
+    async postReward(res) {
+      console.log(res.data[0].id);
+      let payload = {
+        name: this.editedItem.name,
+        points: this.editedItem.points,
+        amount: this.editedItem.amount,
+        picture: res.data[0].id,
+      };
+      console.log(payload);
 
+      let response = await Axios.post(
+        "http://localhost:1337/rewards",
+        payload,
+        {
+          headers: {
+            Authenrization: `Bearer ${this.tokenData}`,
+          },
+        }
+      );
+    },
+    async uploadPic() {
+      // this.file.name = "files" + this.file.name;
+      console.log("file in data = >", this.file);
+
+      const data = new FormData();
+      data.append("files", this.file);
+
+      console.log(data.get("data"));
+      let res = await Axios.post("http://localhost:1337/upload", data, {
+        headers: {
+          Authenrization: `Bearer ${this.tokenData}`,
+        },
+      });
+      this.resData = res;
+      console.log("raw res", res);
+      console.log("log res", res.data[0].id);
+    },
   },
 };
 </script>

@@ -36,6 +36,9 @@ export default new Vuex.Store({
       });
       commit("fetch", { res });
     },
+    addReward({ commit }, payload) {
+      commit("add", { payload });
+    },
   },
   modules: {},
 });

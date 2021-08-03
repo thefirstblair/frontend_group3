@@ -17,7 +17,7 @@
                 <v-row align="start">
                   <v-col class="shrink">
                     <v-img
-                      :src="item.picture"
+                      :src="'http://localhost:1337' + item.picture.url"
                       max-height="200"
                       max-width="200"
                       class="ml-3"
@@ -109,6 +109,7 @@ export default {
       await RewardStore.dispatch("fetchRewards", this.token);
       this.items = RewardStore.getters.rewards;
     },
+    redeemReward() {},
   },
 };
 </script>
