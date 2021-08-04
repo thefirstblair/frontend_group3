@@ -35,6 +35,14 @@ const routes = [
   },
 
   {
+    path: "/summary",
+    name: "Summary",
+    component: function() {
+      return import("../views/SummaryScore.vue");
+    },
+  },
+
+  {
     path: "/history",
     name: "History",
     component: function() {
