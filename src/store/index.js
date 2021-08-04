@@ -24,7 +24,8 @@ export default new Vuex.Store({
         points: 1000,
         amount: 4,
       }
-    ]
+    ],
+    
   },
   mutations: {
     addReward(state,payload){
@@ -35,7 +36,7 @@ export default new Vuex.Store({
     },
     removeReward(state,index){
       state.rewards.splice(index,1)
-    }
+    },
   },
   actions: {
   },
