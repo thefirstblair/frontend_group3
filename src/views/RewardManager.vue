@@ -58,9 +58,6 @@
                         @change="handleChange"
                         class="bg-yellow-300"
                       />
-                      <button class="bg-white m-10" @click="uploadPic">
-                        click
-                      </button>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -116,6 +113,8 @@
 <script>
 import Axios from "axios";
 import RewardStore from "@/store/Reward";
+import UploadStore from "@/store/Upload";
+let api_endpoint = "http://localhost:1337";
 export default {
   name: "Rewards",
   data: () => ({
@@ -143,7 +142,7 @@ export default {
       name: "",
       points: 0,
       amount: 0,
-      image: "",
+      picture: "",
     },
     defaultItem: {
       name: "",
@@ -188,18 +187,7 @@ export default {
   methods: {
     async initialize() {
       // this.rewards = this.$store.state.rewards;
-      try {
-        let response = await Axios.post("http://localhost:1337/auth/local", {
-          identifier: "admin",
-          password: "admin1",
-        });
-        console.log("User profile", response.data.user);
-        console.log("User token", response.data.jwt);
-        this.token = response.data.jwt;
-        this.profile = response.data.user;
-      } catch (error) {
-        console.log("An error occurred:", error.response);
-      }
+
       await RewardStore.dispatch("fetchRewards", this.token);
       this.rewards = RewardStore.getters.rewards;
       console.log(this.rewards);
@@ -209,6 +197,7 @@ export default {
       this.editedIndex = this.rewards.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      console.log(this.editedIndex);
     },
 
     deleteItem(item) {
@@ -239,16 +228,22 @@ export default {
     },
 
     async save() {
+      if (this.file) {
+        console.log("saved", this.editedIndex);
+        await this.uploadPicture();
+        console.log("resdata save", this.resData);
+        this.editedItem.picture = this.resData.data[0].id;
+      }
       if (this.editedIndex > -1) {
         Object.assign(this.rewards[this.editedIndex], this.editedItem);
-        this.$store.commit("editReward", {
+        await RewardStore.dispatch("updateRewards", {
           index: this.editedIndex,
           data: this.editedItem,
         });
       } else {
         // this.$store.commit("addReward", this.editedItem);
-        this.postReward(this.resData);
-        await RewardStore.dispatch("fetchRewards", this.token);
+        this.postReward();
+        await RewardStore.dispatch("fetchRewards");
         this.rewards = RewardStore.getters.rewards;
         console.log(this.rewards);
       }
@@ -258,42 +253,32 @@ export default {
       console.log("file to upload", event.target.files);
       this.file = event.target.files[0];
     },
-    async postReward(res) {
-      console.log(res.data[0].id);
+    async uploadPicture() {
+      let data = new FormData();
+      data.append("files", this.file);
+      console.log(this.tokenData);
+      this.resData = await Axios.post(api_endpoint + "/upload", data, {
+        headers: {
+          Authorization: `Bearer ${this.tokenData}`,
+        },
+      });
+      console.log("resdata upload ", this.resData.data[0].id);
+
+      // this.resData = await UploadStore.dispatch(
+      //   "createMedia",
+      //   data,
+      //   this.tokenData
+      // );
+      // console.log("res func");
+    },
+    async postReward() {
       let payload = {
         name: this.editedItem.name,
         points: this.editedItem.points,
         amount: this.editedItem.amount,
-        picture: res.data[0].id,
+        picture: this.resData.data[0].id,
       };
-      console.log(payload);
-
-      let response = await Axios.post(
-        "http://localhost:1337/rewards",
-        payload,
-        {
-          headers: {
-            Authenrization: `Bearer ${this.tokenData}`,
-          },
-        }
-      );
-    },
-    async uploadPic() {
-      // this.file.name = "files" + this.file.name;
-      console.log("file in data = >", this.file);
-
-      const data = new FormData();
-      data.append("files", this.file);
-
-      console.log(data.get("data"));
-      let res = await Axios.post("http://localhost:1337/upload", data, {
-        headers: {
-          Authenrization: `Bearer ${this.tokenData}`,
-        },
-      });
-      this.resData = res;
-      console.log("raw res", res);
-      console.log("log res", res.data[0].id);
+      RewardStore.dispatch("createRewards", payload);
     },
   },
 };
