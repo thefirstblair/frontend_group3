@@ -3,10 +3,11 @@
     <div
       class="flex justify-center mt-4 h-24 text-center text-5xl font-semibold"
     >
-      <span class="bg-yellow-300 w-28">
-        Time
+      <span class="timer">
+        Time <br>
         {{ timer }}
       </span>
+
     </div>
     <div class="bg-gray-700 text-red-50 text-xl h-18 w-1/2 mt-4 mx-auto p-4">
       <span v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
@@ -27,7 +28,7 @@
     </div>
 
     <div
-      class="
+     class="
         flex
         justify-center
         space-x-16
@@ -37,24 +38,51 @@
         my-8
       "
     >
-      <span class="bg-yellow-300 w-auto">
-        Raw WPM <br />
-        {{ grossWPM }}
-      </span>
-      <span class="bg-yellow-300 w-auto">
-        Adjust WPM <br />
-        {{ netWPM }}
-      </span>
-      <span class="bg-yellow-300 w-28">
-        Errors
-        {{ incorrected }}
-      </span>
-      <span class="bg-yellow-300 w-28">
-        Score
-        {{ score }}
-      </span>
-    </div>
+
+          
+      <v-bottom-navigation
+        :value="value"
+        color="primary"
+        horizontal
+      >
+      
+    <v-btn>
+      <span>Raw WPM : {{ grossWPM }} </span>
+
+    </v-btn>
+
+    <v-btn>
+      <span>Adjust WPM : {{ netWPM }}</span>
+
+   
+    </v-btn>
+
+    <v-btn>
+      <span>Errors : {{ incorrected }}</span>
+    </v-btn>
+
+    <v-btn>
+      <span>Score : {{ score }}</span>
+    </v-btn>
+
+
+  </v-bottom-navigation>
+
+    </div> 
+
+    <v-card-actions class="justify-center">
+      <v-btn to=/summary x-large color="success">
+        Finish
+      </v-btn>
+    </v-card-actions>
+
+    
+
+
+      
   </div>
+
+  
 </template>
 
 <script>
@@ -211,9 +239,13 @@ export default {
       console.log("incorr", this.incorrected);
       this.calScore();
     },
-  },
+    passScore(){
+      
+    }
+  }, 
 };
 </script>
 
 <style>
+
 </style>
