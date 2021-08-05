@@ -29,50 +29,14 @@
 
 
 
-          
-      <v-bottom-navigation
-        :value="value"
-        color="primary"
-        horizontal
-      >
-      
-    <v-btn>
-      <span>Raw WPM : {{ grossWPM }} </span>
-
-    </v-btn>
-
-    <v-btn>
-      <span>Adjust WPM : {{ netWPM }}</span>
-
-   
-    </v-btn>
-
-    <v-btn>
-      <span>Errors : {{ incorrected }}</span>
-    </v-btn>
-
-    <v-btn>
-      <span>Score : {{ score }}</span>
-    </v-btn>
-
-  </v-bottom-navigation>
-<br/>
-<template>
+     
+  <br/>
   <div class="text-center">
     <v-dialog
       v-model="dialog"
       width="500"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="red lighten-2"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Click Me
-        </v-btn>
-      </template>
+   
 
       <v-card>
         <v-card-title class="text-h5 grey lighten-2" >
@@ -99,7 +63,7 @@
               </v-icon>Back
             </v-btn>
 
-                    <v-btn class="ma-2" x-large to=/typing>
+            <v-btn class="ma-2" x-large @click="reset">
               <v-icon left x>
                 mdi-refresh
               </v-icon>
@@ -109,23 +73,14 @@
     </v-dialog>
   </div>
 
+</div>
 </template>
-
-   
-  
-    </div>
-    
-
-  
-</template>
-
 <script>
 import Axios from "axios";
 export default {
   data() {
     return {
       dialog: false,
-      divWord: "click text field to type",
       inputField: "",
       data_words: [
         "test cab equal curl quick quake manic quad reach quark chord quart pace quill sack equip track squid sick quack squat poach quota eject",
@@ -140,7 +95,6 @@ export default {
       grossWPM: 0,
       netWPM: 0,
       timer: 0,
-      isTimeRunning: true,
       limit: 10,
       typed: 0,
       score: 0,
@@ -149,8 +103,7 @@ export default {
     };
   },
   beforeMount() {
-    this.randomed_number = Math.floor(Math.random() * this.data_words.length);
-    this.loaded = false;
+    this.reset()
   },
   computed: {
     dataCom() {
@@ -158,6 +111,29 @@ export default {
     },
   },
   methods: {
+    reset(){
+      this.randomed_number = Math.floor(Math.random() * this.data_words.length);
+      this.loaded = false;
+      this.dialog = false;
+      this.currCursor = 0;
+      this.inputField = "";
+      this.allTyped = 0;
+      this.incorrected = 0;
+      this.grossWPM = 0;
+      this.netWPM = 0;
+      this.timer = 0;
+      this.score = 0;
+      for(let i=0; i < this.$refs.dataSpan.length; i++){
+        this.$refs.dataSpan[i].classList.remove(
+          "text-black",
+          "bg-white",
+          "text-red-800",
+          "bg-red-300",
+          "text-green-800",
+          "bg-green-300"
+        );
+      }
+    },
     startGame() {
       this.divWord = this.data_words[this.randomed_number];
       this.updateWord();
@@ -234,6 +210,7 @@ export default {
       }
     },
     pressSpace() {
+   
       for (let i = 0; i <= this.typed; i++) {
         this.$refs.dataSpan[this.currCursor - i].remove();
       }
@@ -277,6 +254,7 @@ export default {
       console.log("incorr", this.incorrected);
       this.calScore();
       this.callApi();
+      this.dialog = true
 
       // this.$router.push({ name: "Summary" });
     },
