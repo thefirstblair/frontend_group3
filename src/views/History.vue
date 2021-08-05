@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import HistoriesStore from "@/store/Histories";
+import HistoryStore from "@/store/History";
 import Axios from "axios";
 import moment from "moment";
 export default {
@@ -64,10 +64,8 @@ export default {
         });
         console.log("User profile", response.data.user);
         console.log("User token", response.data.jwt);
-        const token = response.data.jwt;
-        const profile = response.data.user;
 
-        await HistoriesStore.dispatch("fetchHistories", token);
+        await HistoriesStore.dispatch("fetchHistories");
         this.items = HistoriesStore.getters.history;
       } catch (error) {
         console.log("An error occurred:", error.response);
@@ -80,7 +78,7 @@ export default {
   created() {
     console.log(moment().format("MMM Do YYY"));
     this.fetchHistories();
-    this.items = HistoriesStore.getters.histories;
+    this.items = HistoryStore.getters.histories;
   },
 };
 </script>

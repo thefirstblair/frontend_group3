@@ -1,11 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
-import RewardService from "@/Service/RewardService";
+import RewardService from "@/service/RewardService";
 
 Vue.use(Vuex);
-
-let api_endpoint = "http://localhost:1337";
 
 export default new Vuex.Store({
     state: {
@@ -30,10 +27,7 @@ export default new Vuex.Store({
     },
     actions: {
         async fetchRewards({ commit }) {
-            let res = await axios.get(
-                api_endpoint + "/rewards",
-                RewardService.getApiHeader()
-            );
+            let res = await RewardService.fetchRewards();
             commit("fetch", { res });
         },
         async createRewards({ commit }, payload) {
@@ -42,13 +36,17 @@ export default new Vuex.Store({
         },
         async updateRewards({ commit }, payload) {
             let res = await RewardService.updateRewards(payload);
-            console.log("store", res);
-            commit("edit", payload);
+            commit("edit", res);
         },
         async deleteRewards({ commit }, payload) {
-            await RewardService.deleteRewards(payload);
+            let res = await RewardService.deleteRewards(payload);
             commit("delete", payload.index);
+            return res
         },
+        async redeemRewards({ commit }, payload) {
+            let res = await RewardService.redeemRewards(payload)
+            return res
+        }
     },
     modules: {},
 });

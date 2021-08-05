@@ -1,75 +1,52 @@
 <template>
-<div>
-  
+  <div>
     <div class="leaderboard">
-      
-    <v-simple-table
-        fixed-header 
-        height="600px"
-    >
+      <v-simple-table fixed-header height="600px">
         <thead>
-            <tr>
-            <th scope="col">
-                Rank
-            </th>
+          <tr>
+            <th scope="col">Rank</th>
+
+            <th scope="col">Username</th>
 
             <th scope="col">
-                Username
+              {{ headtext }}
             </th>
-
-            <th scope="col">
-                {{ headtext }}
-            </th>
-            
-            </tr>
+          </tr>
         </thead>
-        <tbody style="text-align:left;">
-            <tr v-for="(item,index) in sortedArray" :key="index">
+        <tbody style="text-align: left">
+          <tr v-for="(item, index) in sortedArray" :key="index">
             <td>{{ index + 1 }}</td>
-            <td>{{ item.Username }}</td>
-            <td>{{ item.Points }}</td>
-            </tr>
+            <td>{{ item.users.username }}</td>
+            <td>{{ item.amount }}</td>
+          </tr>
         </tbody>
-    </v-simple-table>
+      </v-simple-table>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
-    import axios from "axios";
+import HistoryService from "@/service/HistoryService";
 
-    export default {
-        props:['headtext'],
-        async created(){
-            let response = await axios.post("http://localhost:1337/auth/local",{ 
-                identifier: "admin", 
-                password: "admin1"
-            });
-
-            const token = response.data.jwt;
-
-            let header = {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            }
-            let res = await axios.get(`http://localhost:1337/leaderboards?Content=${this.headtext}`,header);
-            this.data_array = res.data
-        },
-        computed:{
-            sortedArray(){
-                return this.data_array.sort((a, b) => b.Points - a.Points );
-            }
-        },
-        data(){
-            return {
-                data_array:[]
-            }
-        }
-    }
-
+export default {
+  props: ["headtext"],
+  async created() {
+    let res = await HistoryService.getLeaderBoard(this.headtext);
+    console.log(res);
+    this.data_array = res.data;
+  },
+  computed: {
+    sortedArray() {
+      return this.data_array.sort((a, b) => b.Points - a.Points);
+    },
+  },
+  data() {
+    return {
+      data_array: [],
+    };
+  },
+};
 </script>
 
 <style>
-
 </style>
