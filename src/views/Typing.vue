@@ -27,17 +27,7 @@
       />
     </div>
 
-    <div
-     class="
-        flex
-        justify-center
-        space-x-16
-        w-1/2
-        text-center text-4xl
-        mx-auto
-        my-8
-      "
-    >
+
 
           
       <v-bottom-navigation
@@ -66,14 +56,65 @@
     </v-btn>
 
   </v-bottom-navigation>
-
-    </div> 
-      <v-card-actions class="justify-center">
-        <v-btn to=/summary x-large color="success">
-          Finish
+<br/>
+<template>
+  <div class="text-center">
+    <v-dialog
+      v-model="dialog"
+      width="500"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="red lighten-2"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Click Me
         </v-btn>
-      </v-card-actions>  
+      </template>
+
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2" >
+          Summary
+        </v-card-title>
+
+        <v-card-text> 
+          <span>Raw WPM : {{ grossWPM }} </span>
+          <br />
+          <span>Adjust WPM : {{ netWPM }}</span>
+          <br />
+          <span>Errors : {{ incorrected }}</span>
+          <br />
+          <span>Score : {{ score }} </span>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+            <v-btn class="ma-2" x-large to=/ >
+              <v-icon left x>
+                mdi-arrow-left
+              </v-icon>Back
+            </v-btn>
+
+                    <v-btn class="ma-2" x-large to=/typing>
+              <v-icon left x>
+                mdi-refresh
+              </v-icon>
+            </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+
+</template>
+
+   
+  
     </div>
+    
 
   
 </template>
@@ -83,6 +124,7 @@ import Axios from "axios";
 export default {
   data() {
     return {
+      dialog: false,
       divWord: "click text field to type",
       inputField: "",
       data_words: [

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="leaderboard">
-      <v-simple-table fixed-header height="600px">
+      <v-simple-table fixed-header height="600px" fill-height>
         <thead>
           <tr>
             <th scope="col">Rank</th>
