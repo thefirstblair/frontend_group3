@@ -40,45 +40,30 @@
 
 <script>
 import HistoryStore from "@/store/History";
-import Axios from "axios";
 import moment from "moment";
 export default {
   data() {
     return {
-      items: [
-        // { date: "2021-08-01", detail: "Earn Points", amount: 1000 },
-        // { date: "2021-07-23", detail: "Earn Points", amount: 1000 },
-        // { date: "2021-05-05", detail: "Loss Points", amount: 1000 },
-        // { date: "2021-07-21", detail: "Earn Points", amount: 1000 },
-        // { date: "2021-07-19", detail: "Loss Points", amount: 1000 },
-        // { date: "2021-08-12", detail: "Earn Points", amount: 1000 },
-      ],
+      items: [],
     };
   },
   methods: {
     async fetchHistories() {
       try {
-        let response = await Axios.post("http://localhost:1337/auth/local", {
-          identifier: "admin",
-          password: "admin1",
-        });
-        console.log("User profile", response.data.user);
-        console.log("User token", response.data.jwt);
-
-        await HistoriesStore.dispatch("fetchHistories");
-        this.items = HistoriesStore.getters.history;
+        await HistoryStore.dispatch("fetchHistories");
+        this.items = HistoryStore.getters.histories;
+        console.log(HistoryStore.getters.history);
       } catch (error) {
-        console.log("An error occurred:", error.response);
+        console.log("An error occurred:", error);
       }
     },
     timeFormatt(createAt) {
-      return moment(createAt).format("DD/MM/YYYY");
+      return moment(createAt).format("DD/MM/YYYY HH:mm:SS");
     },
   },
   created() {
     console.log(moment().format("MMM Do YYY"));
     this.fetchHistories();
-    this.items = HistoryStore.getters.histories;
   },
 };
 </script>

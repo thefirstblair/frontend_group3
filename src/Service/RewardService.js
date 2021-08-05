@@ -15,6 +15,14 @@ export default {
             };
         }
     },
+    async fetchRewards() {
+        try {
+            let res = await Axios.get(api_endpoint + "/rewards", this.getApiHeader());
+            return res;
+        } catch (error) {
+            return error;
+        }
+    },
     async createRewards(payload) {
         try {
             let res = await Axios.post(
@@ -51,4 +59,18 @@ export default {
             return e.response;
         }
     },
+    async redeemRewards(payload) {
+        try {
+
+            let res = await Axios.put(
+                api_endpoint + '/rewards/' + payload.id,
+                payload.amount--, this.getApiHeader()
+            )
+            return res
+
+
+        } catch (error) {
+            return error.response.data.message[0]
+        }
+    }
 };

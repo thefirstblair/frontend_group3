@@ -186,8 +186,6 @@ export default {
 
   methods: {
     async initialize() {
-      // this.rewards = this.$store.state.rewards;
-
       await RewardStore.dispatch("fetchRewards", this.token);
       this.rewards = RewardStore.getters.rewards;
       console.log(this.rewards);
@@ -241,7 +239,6 @@ export default {
           data: this.editedItem,
         });
       } else {
-        // this.$store.commit("addReward", this.editedItem);
         this.postReward();
         await RewardStore.dispatch("fetchRewards");
         this.rewards = RewardStore.getters.rewards;
@@ -250,26 +247,17 @@ export default {
       this.dialog = false;
     },
     handleChange(event) {
-      console.log("file to upload", event.target.files);
       this.file = event.target.files[0];
     },
     async uploadPicture() {
-      let data = new FormData();
+      const data = new FormData();
       data.append("files", this.file);
-      console.log(this.tokenData);
+      // upload picture to database
       this.resData = await Axios.post(api_endpoint + "/upload", data, {
         headers: {
           Authorization: `Bearer ${this.tokenData}`,
         },
       });
-      console.log("resdata upload ", this.resData.data[0].id);
-
-      // this.resData = await UploadStore.dispatch(
-      //   "createMedia",
-      //   data,
-      //   this.tokenData
-      // );
-      // console.log("res func");
     },
     async postReward() {
       let payload = {

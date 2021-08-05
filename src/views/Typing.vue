@@ -65,27 +65,21 @@
       <span>Score : {{ score }}</span>
     </v-btn>
 
-
   </v-bottom-navigation>
 
     </div> 
-
-    <v-card-actions class="justify-center">
-      <v-btn to=/summary x-large color="success">
-        Finish
-      </v-btn>
-    </v-card-actions>
-
-    
-
-
-      
-  </div>
+      <v-card-actions class="justify-center">
+        <v-btn to=/summary x-large color="success">
+          Finish
+        </v-btn>
+      </v-card-actions>  
+    </div>
 
   
 </template>
 
 <script>
+import Axios from "axios";
 export default {
   data() {
     return {
@@ -108,6 +102,8 @@ export default {
       limit: 10,
       typed: 0,
       score: 0,
+      token: "",
+      profile: [],
     };
   },
   beforeMount() {
@@ -210,7 +206,6 @@ export default {
       }
       this.typed = 0;
       this.inputField = "";
-      // this.$refs.typeField.focus;
     },
     calScore() {
       this.grossWPM = (this.allTyped / 5 / (this.limit / 60)).toFixed(3);
@@ -218,9 +213,10 @@ export default {
         (this.allTyped / 5 - this.incorrected) /
         (this.limit / 60)
       ).toFixed(3);
-      this.score = (this.netWPM * 12.5).toFixed(3);
+      this.score = (this.netWPM * 2.5).toFixed(3);
       console.log("Raw WPM", this.grossWPM);
       console.log("Raw WPM", this.netWPM);
+      console.log("score >", this.score);
     },
     countUpTimer() {
       if (this.limit > this.timer) {
@@ -238,14 +234,41 @@ export default {
       console.log("type", this.allTyped);
       console.log("incorr", this.incorrected);
       this.calScore();
+      this.callApi();
+
+      // this.$router.push({ name: "Summary" });
     },
-    passScore(){
-      
-    }
-  }, 
+    async callApi() {
+      let response = await Axios.post("http://localhost:1337/auth/local", {
+        identifier: "admin",
+        password: "admin1",
+      });
+      console.log("User profile", response.data.user);
+      console.log("User token", response.data.jwt);
+      this.token = response.data.jwt;
+      this.profile = response.data.user;
+      let payload = {
+        score: parseFloat(this.profile.score) + parseFloat(this.score),
+      };
+      if (this.netWPM > this.profile.adj_speed) {
+        payload.adj_speed = this.netWPM;
+      }
+      let res = await Axios.put(
+        "http://localhost:1337/users/" + this.profile.id,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        }
+      );
+      console.log(res);
+    },
+    passScore() {},
+    value() {},
+  },
 };
 </script>
 
 <style>
-
 </style>

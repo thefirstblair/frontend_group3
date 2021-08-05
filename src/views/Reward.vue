@@ -12,7 +12,7 @@
       <v-main>
         <v-container>
           <v-row>
-            <v-col v-for="item in items" :key="item.id" cols="3">
+            <v-col ref="vcol" v-for="item in items" :key="item.id" cols="3">
               <v-card class="mb-2" height="200" width="200">
                 <v-row align="start">
                   <v-col class="shrink">
@@ -45,7 +45,7 @@
               </div>
 
               <br />
-              <v-btn @click="redeemReward">Redeem Reward</v-btn>
+              <v-btn @click="redeemReward(item)">Redeem Reward</v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -86,11 +86,11 @@ export default {
       items: [],
       token: "",
       user: [],
-      pictureInput: "",
     };
   },
   created() {
     this.fetchReward();
+    console.log(this.$refs);
   },
   methods: {
     async fetchReward() {
@@ -106,10 +106,15 @@ export default {
       } catch (error) {
         console.log("An error occurred:", error.response);
       }
-      await RewardStore.dispatch("fetchRewards", this.token);
+      await RewardStore.dispatch("fetchRewards");
       this.items = RewardStore.getters.rewards;
     },
-    redeemReward() {},
+    async redeemReward(item) {
+      // console.log("item", item);
+
+      let res = await RewardStore.dispatch("redeemRewards", item);
+      console.log("res", res);
+    },
   },
 };
 </script>

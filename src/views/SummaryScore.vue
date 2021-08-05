@@ -64,27 +64,17 @@
 </template>
 
 <script>
-
-export default {
-
-
- 
-  
-
-}
+export default {};
 </script>
 
 <style>
 .v-progress-circular {
   margin: 1rem;
-
- 
- 
 }
 
-.text-center{
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+.text-center {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 </style>
