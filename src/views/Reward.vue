@@ -110,7 +110,7 @@ export default {
       this.items = RewardStore.getters.rewards;
     },
     async redeemReward(item) {
-      // console.log("item", item);
+      console.log("item", item);
 
       let res = await RewardStore.dispatch("redeemRewards", item);
       console.log("res", res);

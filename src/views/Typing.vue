@@ -9,12 +9,12 @@
       </span>
 
     </div>
-    <div class="bg-gray-700 text-red-50 text-xl h-18 w-1/2 mt-4 mx-auto p-4">
+    <div class="font-mono bg-gray-700 text-red-50 text-xl h-18 w-1/2 mt-4 mx-auto p-4">
       <span v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
         data
       }}</span>
     </div>
-    <div class="h-20 w-1/2 mt-4 mx-auto text-red-50">
+    <div class="font-mono h-20 w-1/2 mt-4 mx-auto text-red-50">
       <textarea
         type="text"
         class="bg-blue-200 text-black w-full h-full"

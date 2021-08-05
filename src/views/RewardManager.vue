@@ -240,10 +240,10 @@ export default {
         });
       } else {
         this.postReward();
-        await RewardStore.dispatch("fetchRewards");
         this.rewards = RewardStore.getters.rewards;
         console.log(this.rewards);
       }
+      await RewardStore.dispatch("fetchRewards");
       this.dialog = false;
     },
     handleChange(event) {

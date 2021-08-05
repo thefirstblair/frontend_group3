@@ -60,17 +60,20 @@ export default {
         }
     },
     async redeemRewards(payload) {
-        try {
+        if (payload.amount) {
+            payload.amount--
+                try {
 
-            let res = await Axios.put(
-                api_endpoint + '/rewards/' + payload.id,
-                payload.amount--, this.getApiHeader()
-            )
-            return res
+                    let res = await Axios.put(
+                        api_endpoint + '/rewards/' + payload.id,
+                        payload.amount, this.getApiHeader()
+                    )
+                    return res
 
 
-        } catch (error) {
-            return error.response.data.message[0]
+                } catch (error) {
+                    return error.response.data.message[0]
+                }
         }
     }
 };

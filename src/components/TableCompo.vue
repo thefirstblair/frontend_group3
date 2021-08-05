@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     sortedArray() {
-      return this.data_array.sort((a, b) => b.Points - a.Points);
+      return this.data_array.sort((a, b) => b.amount - a.amount);
     },
   },
   data() {
