@@ -53,11 +53,7 @@
                         label="Image URL"
                       ></v-text-field>
 
-                      <input
-                        type="file"
-                        @change="handleChange"
-                        class="bg-yellow-300"
-                      />
+                      <input type="file" @change="handleChange" />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -228,12 +224,14 @@ export default {
     },
 
     async save() {
+      // if file not null then upload file to DB first
       if (this.file) {
         console.log("saved", this.editedIndex);
         await this.uploadPicture();
         console.log("resdata save", this.resData);
         this.editedItem.picture = this.resData.data[0].id;
       }
+      // update or create object
       if (this.editedIndex > -1) {
         Object.assign(this.rewards[this.editedIndex], this.editedItem);
         await RewardStore.dispatch("updateRewards", {
@@ -244,17 +242,22 @@ export default {
         this.postReward();
         console.log(this.rewards);
       }
+      // fetch new rewards data to update picture id with object picture
       await RewardStore.dispatch("fetchRewards");
       this.rewards = RewardStore.getters.rewards;
       this.dialog = false;
     },
+    // update picture when user choose file
     handleChange(event) {
       this.file = event.target.files[0];
     },
     async uploadPicture() {
+      // append pic to formdata
       const data = new FormData();
       data.append("files", this.file);
+
       // upload picture to database
+      // get response data to use with relation
       this.resData = await Axios.post(api_endpoint + "/upload", data, {
         headers: {
           Authorization: `Bearer ${this.tokenData}`,

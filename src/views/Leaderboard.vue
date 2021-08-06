@@ -54,24 +54,25 @@
 </template>
 
 <script>
+import moment from "moment";
 import TableCompo from "../components/TableCompo.vue";
 
 export default {
   components: { TableCompo },
-  computed: {
-    dateRangeText() {
-      return this.dates.join(" ~ ");
-    },
-  },
   data() {
     return {
-      dates: ["2019-09-10", "2019-09-20"],
+      dates: ["2021-07-1", this.getToday()],
       tab: null,
       items: [
         { tab: "Earn Points", content: "EarnPoints" },
         { tab: "Loss Points", content: "LossPoints" },
       ],
     };
+  },
+  methods: {
+    getToday() {
+      return moment(new Date()).format("YYYY-MM-DD");
+    },
   },
 };
 </script>

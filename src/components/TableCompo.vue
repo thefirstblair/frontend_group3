@@ -40,7 +40,6 @@ export default {
   },
   async created() {
     let res = await HistoryService.getLeaderBoard(this.headtext);
-    console.log(res);
     this.data_array = res.data;
   },
   computed: {
@@ -57,7 +56,6 @@ export default {
           selectedDate.push(element);
         }
       });
-      console.log("leader", selectedDate);
       return selectedDate;
     },
   },
