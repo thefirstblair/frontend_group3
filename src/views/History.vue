@@ -26,10 +26,10 @@
           </thead>
           <tbody>
             <tr v-for="item in items" :key="item.date">
-              <td>{{ timeFormatt(item.created_at) }}</td>
+              <td>{{ timeFormat(item.created_at) }}</td>
               <td>{{ item.detail }}</td>
               <td>{{ item.amount }}</td>
-              <td>{{ "balance" }}</td>
+              <td>{{ displayReward(item) }}</td>
             </tr>
           </tbody>
         </template>
@@ -47,7 +47,11 @@ export default {
       items: [],
     };
   },
+
   methods: {
+    displayReward(item) {
+      return item.reward ? item.reward.name : "";
+    },
     async fetchHistories() {
       try {
         await HistoryStore.dispatch("fetchHistories");
@@ -57,7 +61,7 @@ export default {
         console.log("An error occurred:", error);
       }
     },
-    timeFormatt(createAt) {
+    timeFormat(createAt) {
       return moment(createAt).format("DD/MM/YYYY HH:mm:SS");
     },
   },

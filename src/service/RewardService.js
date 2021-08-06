@@ -62,18 +62,19 @@ export default {
     async redeemRewards(payload) {
         if (payload.amount) {
             payload.amount--
-                try {
+                console.log("service", payload);
+            try {
 
-                    let res = await Axios.put(
-                        api_endpoint + '/rewards/' + payload.id,
-                        payload.amount, this.getApiHeader()
-                    )
-                    return res
+                let res = await Axios.put(
+                    api_endpoint + '/rewards/' + payload.id,
+                    payload, this.getApiHeader()
+                )
+                return res
 
 
-                } catch (error) {
-                    return error.response.data.message[0]
-                }
+            } catch (error) {
+                return error.response.data.message[0]
+            }
         }
     }
 };

@@ -113,7 +113,6 @@
 <script>
 import Axios from "axios";
 import RewardStore from "@/store/Reward";
-import UploadStore from "@/store/Upload";
 let api_endpoint = "http://localhost:1337";
 export default {
   name: "Rewards",
@@ -205,7 +204,7 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.$store.commit("removeReward", this.editedIndex);
+      RewardStore.dispatch("deleteRewards", this.editedIndex);
       this.closeDelete();
     },
 
@@ -240,10 +239,10 @@ export default {
         });
       } else {
         this.postReward();
-        this.rewards = RewardStore.getters.rewards;
         console.log(this.rewards);
       }
       await RewardStore.dispatch("fetchRewards");
+      this.rewards = RewardStore.getters.rewards;
       this.dialog = false;
     },
     handleChange(event) {

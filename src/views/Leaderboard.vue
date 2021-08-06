@@ -7,6 +7,24 @@
             Leaderboard
           </span>
         </v-col>
+
+        <template>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-date-picker v-model="dates" range></v-date-picker>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                v-model="dateRangeText"
+                label="Date range"
+                prepend-icon="mdi-calendar"
+                readonly
+              ></v-text-field>
+              model: {{ dates }}
+            </v-col>
+          </v-row>
+        </template>
+
         <v-col class="white--text text-center" cols="12" tag="h1">
           <v-card color="basil">
             <v-tabs
@@ -41,8 +59,14 @@ import TableCompo from "../components/TableCompo.vue";
 
 export default {
   components: { TableCompo },
+  computed: {
+    dateRangeText() {
+      return this.dates.join(" ~ ");
+    },
+  },
   data() {
     return {
+      date: "",
       tab: null,
       items: [
         { tab: "Earn Points", content: "EarnPoints" },

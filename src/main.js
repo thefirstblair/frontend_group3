@@ -15,10 +15,10 @@ Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;
 
 new Vue({
-  router,
-  store,
-  vuetify,
-  render: function(h) {
-    return h(App);
-  },
+    router,
+    store,
+    vuetify,
+    render: function(h) {
+        return h(App);
+    },
 }).$mount("#app");
