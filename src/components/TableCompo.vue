@@ -6,6 +6,7 @@
           <tr>
             <th scope="col">Rank</th>
 
+            <th scope="col">Time Stamp</th>
             <th scope="col">Username</th>
 
             <th scope="col">
@@ -16,6 +17,7 @@
         <tbody style="text-align: left">
           <tr v-for="(item, index) in sortedArray" :key="index">
             <td>{{ index + 1 }}</td>
+            <td>{{ timeFormat(item.created_at) }}</td>
             <td>{{ item.users.username }}</td>
             <td>{{ item.amount }}</td>
           </tr>
@@ -27,6 +29,7 @@
 
 <script>
 import HistoryService from "@/service/HistoryService";
+import moment from "moment";
 
 export default {
   props: ["headtext"],
@@ -44,6 +47,11 @@ export default {
     return {
       data_array: [],
     };
+  },
+  methods: {
+    timeFormat(createAt) {
+      return moment(createAt).format("DD/MM/YYYY HH:mm:SS");
+    },
   },
 };
 </script>
