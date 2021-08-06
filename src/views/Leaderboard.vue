@@ -42,7 +42,11 @@
               <v-tab-item v-for="item in items" :key="item.tab">
                 <v-card color="basil" flat>
                   <v-card>
-                    <TableCompo :headtext="item.content" />
+                    <TableCompo
+                      :headtext="item.content"
+                      :startDate="dates[0]"
+                      :endDate="dates[1]"
+                    />
                   </v-card>
                 </v-card>
               </v-tab-item>
@@ -66,7 +70,7 @@ export default {
   },
   data() {
     return {
-      date: "",
+      dates: ["2019-09-10", "2019-09-20"],
       tab: null,
       items: [
         { tab: "Earn Points", content: "EarnPoints" },
