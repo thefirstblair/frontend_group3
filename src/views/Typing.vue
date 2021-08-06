@@ -27,63 +27,60 @@
       />
     </div>
 
-    <div
-     class="
-        flex
-        justify-center
-        space-x-16
-        w-1/2
-        text-center text-4xl
-        mx-auto
-        my-8
-      "
+
+
+     
+  <br/>
+  <div class="text-center">
+    <v-dialog
+      v-model="dialog"
+      width="500"
     >
-
-          
-      <v-bottom-navigation
-        :value="value"
-        color="primary"
-        horizontal
-      >
-      
-    <v-btn>
-      <span>Raw WPM : {{ grossWPM }} </span>
-
-    </v-btn>
-
-    <v-btn>
-      <span>Adjust WPM : {{ netWPM }}</span>
-
    
-    </v-btn>
 
-    <v-btn>
-      <span>Errors : {{ incorrected }}</span>
-    </v-btn>
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2" >
+          Summary
+        </v-card-title>
 
-    <v-btn>
-      <span>Score : {{ score }}</span>
-    </v-btn>
+        <v-card-text> 
+          <span>Raw WPM : {{ grossWPM }} </span>
+          <br />
+          <span>Adjust WPM : {{ netWPM }}</span>
+          <br />
+          <span>Errors : {{ incorrected }}</span>
+          <br />
+          <span>Score : {{ score }} </span>
+        </v-card-text>
 
-  </v-bottom-navigation>
+        <v-divider></v-divider>
 
-    </div> 
-      <v-card-actions class="justify-center">
-        <v-btn to=/summary x-large color="success">
-          Finish
-        </v-btn>
-      </v-card-actions>  
-    </div>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+            <v-btn class="ma-2" x-large to=/ >
+              <v-icon left x>
+                mdi-arrow-left
+              </v-icon>Back
+            </v-btn>
 
-  
+            <v-btn class="ma-2" x-large @click="reset">
+              <v-icon left x>
+                mdi-refresh
+              </v-icon>
+            </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+
+</div>
 </template>
-
 <script>
 import Axios from "axios";
 export default {
   data() {
     return {
-      divWord: "click text field to type",
+      dialog: false,
       inputField: "",
       data_words: [
         "test cab equal curl quick quake manic quad reach quark chord quart pace quill sack equip track squid sick quack squat poach quota eject",
@@ -98,7 +95,6 @@ export default {
       grossWPM: 0,
       netWPM: 0,
       timer: 0,
-      isTimeRunning: true,
       limit: 10,
       typed: 0,
       score: 0,
@@ -107,8 +103,7 @@ export default {
     };
   },
   beforeMount() {
-    this.randomed_number = Math.floor(Math.random() * this.data_words.length);
-    this.loaded = false;
+    this.reset()
   },
   computed: {
     dataCom() {
@@ -116,6 +111,29 @@ export default {
     },
   },
   methods: {
+    reset(){
+      this.randomed_number = Math.floor(Math.random() * this.data_words.length);
+      this.loaded = false;
+      this.dialog = false;
+      this.currCursor = 0;
+      this.inputField = "";
+      this.allTyped = 0;
+      this.incorrected = 0;
+      this.grossWPM = 0;
+      this.netWPM = 0;
+      this.timer = 0;
+      this.score = 0;
+      for(let i=0; i < this.$refs.dataSpan.length; i++){
+        this.$refs.dataSpan[i].classList.remove(
+          "text-black",
+          "bg-white",
+          "text-red-800",
+          "bg-red-300",
+          "text-green-800",
+          "bg-green-300"
+        );
+      }
+    },
     startGame() {
       this.divWord = this.data_words[this.randomed_number];
       this.updateWord();
@@ -192,6 +210,7 @@ export default {
       }
     },
     pressSpace() {
+   
       for (let i = 0; i <= this.typed; i++) {
         this.$refs.dataSpan[this.currCursor - i].remove();
       }
@@ -235,6 +254,7 @@ export default {
       console.log("incorr", this.incorrected);
       this.calScore();
       this.callApi();
+      this.dialog = true
 
       // this.$router.push({ name: "Summary" });
     },
