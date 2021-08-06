@@ -50,6 +50,7 @@ export default {
 
   methods: {
     displayReward(item) {
+      console.log(item);
       return item.reward ? item.reward.name : "";
     },
     async fetchHistories() {
