@@ -8,18 +8,19 @@
         <v-container fill-height>
           <v-row align="center" class="white--text" justify="center">
             <v-col class="white--text text-center" cols="12" tag="h1">
-              <span class="font-weight-black" style="font-size: 250%">
+              <span class="font-weight-black" style="font-size: 350%">
                 Typewriter Online
               </span>
 
               <br />
 
-              <span class="font-weight-light" style="font-size: 100%">
-                text text text
+              <span class="font-weight-light" style="font-size: 150%">
+                  เกมฝึกทักษะการพิมพ์ดีด เหมาะสำหรับผู้เพิ่งเริ่มต้นและผู้ที่สนใจการพิมพ์ดีด <br/> 
+                  เพียงคุณพิมพ์ดีดตัวอักษรตามตัวอย่างในเวลาภายใน 10 วินาที ก็สามารถสะสมคะแนนจากการพิมพ์ดีด<br/>เพื่อนำแต้มไปแลกของรางวัลสุดพิเศษได้ ลองเล่นดูเลย!
               </span>
             </v-col>
 
-            <v-btn to="/typing" elevation="2" x-large> Play now </v-btn>
+            <v-btn to="/typing" elevation="2" x-large size="200"> Play now </v-btn>
           </v-row>
         </v-container>
       </v-img>

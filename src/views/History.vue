@@ -3,7 +3,7 @@
     <v-container fill-height>
       <v-row align="center" class="white--text" justify="center">
         <v-col class="white--text text-center" cols="12" tag="h1">
-          <span class="font-weight-black" style="font-size: 250%">
+          <span class="font-weight-black" style="font-size: 350%">
             History
           </span>
         </v-col>

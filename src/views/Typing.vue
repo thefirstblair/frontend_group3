@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="test">
     <div
-      class="flex justify-center mt-4 h-24 text-center text-5xl font-semibold"
+      class="tw-flex tw-justify-center tw-mt-4 tw-h-24 tw-text-center tw-text-5xl tw-font-semibold"
     >
       <span class="timer">
         Time <br>
@@ -9,15 +9,16 @@
       </span>
 
     </div>
-    <div class="tw-font-mono tw-bg-gray-700 tw-text-red-50 tw-text-xl h-18 w-1/2 mt-4 mx-auto p-4">
+    <div class="tw-font-mono tw-bg-gray-700 tw-text-red-50 tw-text-xl tw-h-18 tw-w-1/2 tw-mt-4 tw-mx-auto tw-p-4">
       <span v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
         data
       }}</span>
     </div>
-    <div class="font-mono h-20 w-1/2 mt-4 mx-auto tw-text-red-50">
+    <br/>
+    <div class="tw-font-mono tw-text-red-50">
       <textarea
         type="text"
-        class="bg-blue-200 text-black w-full h-full"
+        class="tw-bg-blue-200 tw-text-black "
         @focus="startGame"
         @keypress="typing"
         @keydown.delete="pressDelete"
@@ -290,4 +291,12 @@ export default {
 </script>
 
 <style>
+textarea{
+  height: 200px;
+  width: 1000px;
+  margin-right: auto;
+  margin-left: auto;
+  justify-content: center;
+}
+
 </style>

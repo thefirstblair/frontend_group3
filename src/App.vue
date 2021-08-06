@@ -10,7 +10,7 @@
 
         <v-spacer></v-spacer>
         <v-btn icon x-large>
-          Login
+          Logout
         </v-btn>
         
       </v-app-bar>
@@ -67,12 +67,12 @@
         </v-list>
 
         <div 
-          class="Login"
+          class="Logout"
         >
           <v-btn 
               block
           >
-          Login
+          Logout
           </v-btn>
         </div>
       </v-navigation-drawer>

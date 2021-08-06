@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <v-app id="inspire">
-      <v-row align="center" class="white--text" justify="center">
+  <div class="reward">
+      <v-row align="justify-center" class="white--text" justify="center">
         <v-col class="black--text text-center" cols="12" tag="h1">
-          <span class="font-weight-black" style="font-size: 200%">
+          <span class="font-weight-black" style="font-size: 300%">
+            <br/>
             Redeem Reward
           </span>
         </v-col>
@@ -16,69 +16,58 @@
         <v-container>
           <v-row>
             <v-col ref="vcol" v-for="item in items" :key="item.id" cols="3">
-              <v-card class="mx-auto" height="200" width="200">
-                <v-row align="start">
-                  <v-col class="shrink">
+                <v-card
+                class="mx-auto"
+                max-width="250"
+                max-height="350"
+                >
                     <v-img
                       :src="'http://localhost:1337' + item.picture.url"
-                      max-height="200"
-                      max-width="200"
-                      class="ml-3"
+                      max-height="100"
+                      max-width="100"
+                      class="mx-auto"
+                      aspect-ratio="1"
                     ></v-img>
-                  </v-col>
-                </v-row>
-              </v-card>
+             
+      
 
               <div class="center">
-                <br />
+                <v-card-title class="justify-center">
+                 
                 <label for="name"
-                  >Name:
+                  >
                   <td>{{ item.name }}</td>
                 </label>
-                <br />
+               
+                </v-card-title>
+
+               
+                <v-card-subtitle>
                 <label for="points"
-                  >Points:
+                  >แต้ม:
                   <td>{{ item.points }}</td></label
                 >
                 <br />
                 <label for="amount"
-                  >Amount:
+                  >คงเหลือ:
                   <td>{{ item.amount }}</td>
                 </label>
+                </v-card-subtitle>
               </div>
 
               <br />
               <div class="center">
               <v-btn @click="redeemReward(item) " :disabled="item.amount===0">Redeem Reward</v-btn>
               </div>
+                </v-card>
             </v-col>
           </v-row>
         </v-container>
       </v-main>
 
-      <div class="rewardTable">
-        <v-simple-table>
-          <template>
-            <thead>
-              <tr>
-                <th class="text-left" scope="col">Name</th>
 
-                <th class="text-left" scope="col">Points</th>
-
-                <th class="text-left" scope="col">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in items" :key="item.id">
-                <td>{{ item.name }}</td>
-                <td>{{ item.points }}</td>
-                <td>{{ item.amount }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </div>
-    </v-app>
+      
+    
   </div>
 </template>
 
@@ -140,19 +129,24 @@ export default {
 </script>
 
 <style>
-.rewardTable {
+.reward{
   width: 80%;
-  height: 50vh;
+  height: 100vh;
   border-radius: 1vh;
   padding: 3vh;
   overflow: auto;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 0px;
-  background-color: beige;
+  margin-top: 50px;
+  
+
+  
+  
 }
 .center{
     text-align: center;
 
 }
+
+.masked{}
 </style>
