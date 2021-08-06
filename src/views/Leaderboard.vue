@@ -10,7 +10,7 @@
 
         <template>
           <v-row class="tw-flex">
-            <v-col class="tw-m-auto tw-flex tw-justify-center" cols="12" sm="6">
+            <v-col class="tw-m-auto tw-flex " cols="12" sm="6">
               <v-date-picker
                 header-color="green lighten-1"
                 v-model="dates"
@@ -18,7 +18,7 @@
               ></v-date-picker>
             </v-col>
           </v-row>
-        </template>
+      
 
         <v-col class="white--text text-center" cols="12" tag="h1">
           <v-card color="basil">
@@ -48,6 +48,7 @@
             </v-tabs-items>
           </v-card>
         </v-col>
+          </template>
       </v-row>
     </v-container>
   </div>
