@@ -9,11 +9,14 @@
         </v-col>
       </v-row>
 
+      <br/>
+      <br />
+
       <v-main>
         <v-container>
           <v-row>
             <v-col ref="vcol" v-for="item in items" :key="item.id" cols="3">
-              <v-card class="mb-2" height="200" width="200">
+              <v-card class="mx-auto" height="200" width="200">
                 <v-row align="start">
                   <v-col class="shrink">
                     <v-img
@@ -26,7 +29,7 @@
                 </v-row>
               </v-card>
 
-              <div>
+              <div class="center">
                 <br />
                 <label for="name"
                   >Name:
@@ -45,7 +48,9 @@
               </div>
 
               <br />
-              <v-btn @click="redeemReward(item)">Redeem Reward</v-btn>
+              <div class="center">
+              <v-btn @click="redeemReward(item) " :disabled="item.amount===0">Redeem Reward</v-btn>
+              </div>
             </v-col>
           </v-row>
         </v-container>
@@ -113,6 +118,21 @@ export default {
       console.log("item", item);
 
       let res = await RewardStore.dispatch("redeemRewards", item);
+
+      if (res.status == 200)
+      {
+          this.$swal('แลกของรางวัลเรียบร้อย',
+          'คุณได้ใช้แต้มไป ' + item.points + ' แต้ม',
+           'success')
+
+      } else {
+        this.$swal(  'error',
+          'Oops...',
+          'Something went wrong!',
+
+);
+
+      }
       console.log("res", res);
     },
   },
@@ -130,5 +150,9 @@ export default {
   margin-right: auto;
   margin-top: 0px;
   background-color: beige;
+}
+.center{
+    text-align: center;
+
 }
 </style>
