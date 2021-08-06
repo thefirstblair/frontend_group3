@@ -9,18 +9,13 @@
         </v-col>
 
         <template>
-          <v-row>
-            <v-col cols="12" sm="6">
-              <v-date-picker v-model="dates" range></v-date-picker>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field
-                v-model="dateRangeText"
-                label="Date range"
-                prepend-icon="mdi-calendar"
-                readonly
-              ></v-text-field>
-              model: {{ dates }}
+          <v-row class="tw-flex">
+            <v-col class="tw-m-auto tw-flex tw-justify-center" cols="12" sm="6">
+              <v-date-picker
+                header-color="green lighten-1"
+                v-model="dates"
+                range
+              ></v-date-picker>
             </v-col>
           </v-row>
         </template>

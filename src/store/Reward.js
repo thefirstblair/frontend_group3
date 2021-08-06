@@ -22,7 +22,8 @@ export default new Vuex.Store({
             state.data[payload.index] = payload.data;
         },
         delete(state, index) {
-            state.rewards.splice(index, 1);
+            console.log("delete index", index);
+            state.data.splice(index, 1);
         },
     },
     actions: {
@@ -38,9 +39,9 @@ export default new Vuex.Store({
             let res = await RewardService.updateRewards(payload);
             commit("edit", res);
         },
-        async deleteRewards({ commit }, payload) {
+        async deleteRewards({ commit }, { index, payload }) {
             let res = await RewardService.deleteRewards(payload);
-            commit("delete", payload.index);
+            commit("delete", index);
             return res
         },
         async redeemRewards({ commit }, payload) {

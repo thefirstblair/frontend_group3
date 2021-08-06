@@ -203,8 +203,11 @@ export default {
       this.dialogDelete = true;
     },
 
-    deleteItemConfirm() {
-      RewardStore.dispatch("deleteRewards", this.editedIndex);
+    async deleteItemConfirm() {
+      let res = await RewardStore.dispatch("deleteRewards", {
+        index: this.editedIndex,
+        payload: this.editedItem,
+      });
       this.closeDelete();
     },
 

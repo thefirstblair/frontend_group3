@@ -50,6 +50,7 @@ export default {
     },
     async deleteRewards(payload) {
         try {
+            console.log("payload", payload);
             let res = await Axios.delete(
                 api_endpoint + "/rewards/" + payload.id,
                 this.getApiHeader()

@@ -9,12 +9,12 @@
       </span>
 
     </div>
-    <div class="font-mono bg-gray-700 text-red-50 text-xl h-18 w-1/2 mt-4 mx-auto p-4">
+    <div class="tw-font-mono tw-bg-gray-700 tw-text-red-50 tw-text-xl h-18 w-1/2 mt-4 mx-auto p-4">
       <span v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
         data
       }}</span>
     </div>
-    <div class="font-mono h-20 w-1/2 mt-4 mx-auto text-red-50">
+    <div class="font-mono h-20 w-1/2 mt-4 mx-auto tw-text-red-50">
       <textarea
         type="text"
         class="bg-blue-200 text-black w-full h-full"
@@ -103,7 +103,7 @@ export default {
     };
   },
   beforeMount() {
-    this.reset()
+    this.reset();
   },
   computed: {
     dataCom() {
@@ -111,7 +111,7 @@ export default {
     },
   },
   methods: {
-    reset(){
+    reset() {
       this.randomed_number = Math.floor(Math.random() * this.data_words.length);
       this.loaded = false;
       this.dialog = false;
@@ -123,7 +123,7 @@ export default {
       this.netWPM = 0;
       this.timer = 0;
       this.score = 0;
-      for(let i=0; i < this.$refs.dataSpan.length; i++){
+      for (let i = 0; i < this.$refs.dataSpan.length; i++) {
         this.$refs.dataSpan[i].classList.remove(
           "text-black",
           "bg-white",
@@ -210,7 +210,6 @@ export default {
       }
     },
     pressSpace() {
-   
       for (let i = 0; i <= this.typed; i++) {
         this.$refs.dataSpan[this.currCursor - i].remove();
       }
@@ -254,7 +253,7 @@ export default {
       console.log("incorr", this.incorrected);
       this.calScore();
       this.callApi();
-      this.dialog = true
+      this.dialog = true;
 
       // this.$router.push({ name: "Summary" });
     },
