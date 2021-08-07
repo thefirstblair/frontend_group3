@@ -17,7 +17,7 @@ export default {
     },
 
     getApiHeader() {
-        if (jwt !=="") {
+        if (jwt !== "") {
             return {
                 Headers: {
                     Author: `Bearer ${jwt}`
@@ -60,7 +60,7 @@ export default {
         }
     },
 
-    async register ({ username, password }) {
+    async register({ username, password }) {
         try {
             let url = `${api_endpoint}/auth/local/register`
             let body = {
@@ -87,7 +87,7 @@ export default {
                 }
             } else {
                 return {
-                    success:false,
+                    success: false,
                     message: "Unknown error: " + e.response.data
                 }
             }
@@ -98,5 +98,5 @@ export default {
         localStorage.removeItem(auth_key)
     },
 
-    
+
 }

@@ -5,10 +5,10 @@ import AuthService from '@/service/AuthService'
 
 Vue.use(Vuex)
 
-const auth_key = "auth-user"
+const auth_key = "authorization"
 let auth = JSON.parse(localStorage.getItem(auth_key))
-const user = auth ? auth.user : ""
-const jwt = auth ? auth.jwt : ""
+    // const user = auth ? auth.user : ""
+    // const jwt = auth ? auth.jwt : ""
 
 const initialstate = {
     user: auth ? auth.user : "",
@@ -20,11 +20,17 @@ export default new Vuex.Store({
     state: {
         initialstate,
     },
+    getters: {
+        user: (state) => state.user,
+        jwt: (state) => state.jwt,
+        isAuthen: (state) => state.isAuthen
+    },
     mutations: {
         loginSuccess(state, user, jwt) {
             state.user = user
             state.jwt = jwt
             state.isAuthen = true
+            console.log("loginsuccccccc", state.isAuthen);
         },
         logoutSuccess(state) {
             state.user = ""
@@ -36,7 +42,9 @@ export default new Vuex.Store({
         async login({ commit }, { username, password }) {
             let res = await AuthService.login({ username, password })
             if (res.success) {
-                commit('loginSuccess', res.user, res.jwt)
+                console.log(res.user, res.jwt);
+                console.log("login suc", res);
+                commit("loginSuccess", res.user, res.jwt)
             }
             return res
         },
@@ -47,16 +55,12 @@ export default new Vuex.Store({
         async register({ commit }, { username, password }) {
             let res = await AuthService.register({ username, password })
             if (res.success) {
-                commit("LoginSuccess", res.user, res.jwt)
+                commit("loginSuccess", res.user, res.jwt)
             }
             return res
         }
     },
-    getters: {
-        user: (state) => status.user,
-        jwt: (state) => state.jwt,
-        isAuthen: (status) => status.isAuthen
-    },
+
     modules: {
 
     }

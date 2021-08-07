@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h1 class="white--text w-auto">Login</h1>
+  <div class="">
     <v-dialog v-model="dialog" persistent max-width="600px" min-width="360px">
       <div>
         <v-tabs
@@ -166,13 +165,30 @@ export default {
   methods: {
     async loginClick() {
       console.log(this.loginUsername, this.loginPassword);
+      this.$swal.showLoading();
       let res = await Authen.dispatch("login", {
         username: this.loginUsername,
         password: this.loginPassword,
       });
       console.log("click");
       console.log("res", res);
-      // if()
+      this.$emit("logon");
+      if (res.success) {
+        const Toase = this.$swal.mixin({
+          toast: true,
+          position: "bottom-end",
+          icon: "success",
+          title: "Logedin Successfully",
+          showConfirmButton: false,
+          timerProgressBar: true,
+          timer: 2300,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", this.$swal.stopTimer);
+            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+          },
+        });
+        Toase.fire();
+      }
     },
     getAllData() {
       const token = this.tokenData;
@@ -203,4 +219,7 @@ export default {
 </script>
 
 <style>
+.swal2-popup.swal2-toast {
+  box-shadow: 0 0 0.625em #f00000 !important;
+}
 </style>
