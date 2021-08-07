@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="leaderboardpage">
     <v-container fill-height>
       <v-row align="center" class="white--text" justify="center">
         <v-col class="white--text text-center" cols="12" tag="h1">
@@ -9,45 +9,46 @@
         </v-col>
 
         <template>
-          <v-row class="tw-flex">
-            <v-col class="tw-m-auto tw-flex " cols="12" sm="6">
+          <v-row>
+            <v-col cols="3">
               <v-date-picker
                 header-color="green lighten-1"
                 v-model="dates"
                 range
               ></v-date-picker>
             </v-col>
+
+            <v-col class="white--text text-center" cols="9" tag="h1">
+              <v-card color="basil">
+                <v-tabs
+                  v-model="tab"
+                  background-color="transparent"
+                  color="basil"
+                  grow
+                >
+                  <v-tab v-for="item in items" :key="item.tab">
+                    {{ item.tab }}
+                  </v-tab>
+                </v-tabs>
+
+                <v-tabs-items v-model="tab">
+                  <v-tab-item v-for="item in items" :key="item.tab">
+                    <v-card color="basil" flat>
+                      <v-card>
+                        <TableCompo
+                          :headtext="item.content"
+                          :startDate="dates[0]"
+                          :endDate="dates[1]"
+                        />
+                      </v-card>
+                    </v-card>
+                  </v-tab-item>
+                </v-tabs-items>
+              </v-card>
+            </v-col>
+
+
           </v-row>
-      
-
-        <v-col class="white--text text-center" cols="12" tag="h1">
-          <v-card color="basil">
-            <v-tabs
-              v-model="tab"
-              background-color="transparent"
-              color="basil"
-              grow
-            >
-              <v-tab v-for="item in items" :key="item.tab">
-                {{ item.tab }}
-              </v-tab>
-            </v-tabs>
-
-            <v-tabs-items v-model="tab">
-              <v-tab-item v-for="item in items" :key="item.tab">
-                <v-card color="basil" flat>
-                  <v-card>
-                    <TableCompo
-                      :headtext="item.content"
-                      :startDate="dates[0]"
-                      :endDate="dates[1]"
-                    />
-                  </v-card>
-                </v-card>
-              </v-tab-item>
-            </v-tabs-items>
-          </v-card>
-        </v-col>
           </template>
       </v-row>
     </v-container>
@@ -79,4 +80,7 @@ export default {
 </script>
 
 <style>
+.leaderboardpage{
+font-family: "Kanit";
+}
 </style>

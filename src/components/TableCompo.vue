@@ -19,7 +19,7 @@
             <td>{{ index + 1 }}</td>
             <td>{{ timeFormat(item.created_at) }}</td>
             <td>{{ item.users.username }}</td>
-            <td>{{ item.amount }}</td>
+            <td :style="{color: + (headtext == 'EarnPoints') ? 'green' : 'red'}">{{ (item.detail == 'EarnPoints') ? item.amount : "-" + item.amount }}</td>
           </tr>
         </tbody>
       </v-simple-table>

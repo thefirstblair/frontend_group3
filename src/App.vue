@@ -4,14 +4,10 @@
       <v-app-bar
         color="deep-purple accent-4"
         dark
+        v-if="show"
       >
         <v-app-bar-nav-icon @click="drawer = true" ></v-app-bar-nav-icon>
         <v-toolbar-title>TypeWriter</v-toolbar-title>
-
-        <v-spacer></v-spacer>
-        <v-btn icon x-large>
-          Logout
-        </v-btn>
         
       </v-app-bar>
 
@@ -24,7 +20,6 @@
           dense
         >
           <v-list-item-group
-            v-model="group"
             active-class="deep-purple--text text--accent-4"
           >
             <v-list-item to="/" >
@@ -70,20 +65,13 @@
           class="Logout"
         >
           <v-btn 
-              block
+              block to=/Login
           >
           Logout
           </v-btn>
         </div>
       </v-navigation-drawer>
-      <v-img
-        :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
-        src="https://www.teahub.io/photos/full/96-966323_minimalist-wallpapers-minimal-background.jpg"
-      >
-      <v-content>
-        <router-view/>
-      </v-content>
-      </v-img>
+      <router-view/>
     </v-main>
   </v-app>
 </template>
@@ -94,11 +82,37 @@ export default {
   name: 'App',
 
   data: () => ({
-    drawer : false
+    drawer : false,
+    show:false
   }),
+
+  created(){
+    if(this.$route.name == 'Login' || this.$route.name == 'Register'){
+      this.show = false
+    }else{
+      this.show = true
+    }
+  },
 };
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+
+*{
+  font-family: 'Kanit', sans-serif;
+}
+
+#app{
+  background:url(https://www.teahub.io/photos/full/96-966323_minimalist-wallpapers-minimal-background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+body{
+  width:100vw;
+  height:100%;
+}
 
 </style>

@@ -28,7 +28,7 @@
             <tr v-for="item in items" :key="item.date">
               <td>{{ timeFormat(item.created_at) }}</td>
               <td>{{ item.detail }}</td>
-              <td>{{ item.amount }}</td>
+              <td :style="{color: + (item.detail == 'EarnPoints') ? 'green' : 'red'}" >{{ (item.detail == 'EarnPoints') ? "+" + item.amount : "-" + item.amount }}</td>
               <td>{{ displayReward(item) }}</td>
             </tr>
           </tbody>

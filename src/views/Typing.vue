@@ -1,5 +1,5 @@
 <template>
-  <div class="test">
+  <div>
     <div
       class="tw-flex tw-justify-center tw-mt-4 tw-h-24 tw-text-center tw-text-5xl tw-font-semibold"
     >
@@ -7,29 +7,31 @@
         Time <br>
         {{ timer }}
       </span>
-
     </div>
     <div class="tw-font-mono tw-bg-gray-700 tw-text-red-50 tw-text-xl tw-h-18 tw-w-1/2 tw-mt-4 tw-mx-auto tw-p-4">
       <span v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
         data
       }}</span>
     </div>
-    <br/>
-    <div class="tw-font-mono tw-text-red-50">
-      <textarea
-        type="text"
-        class="tw-bg-blue-200 tw-text-black "
-        @focus="startGame"
-        @keypress="typing"
-        @keydown.delete="pressDelete"
-        @keydown.space="pressSpace"
-        v-model="inputField"
-        ref="typeField"
-      />
-    </div>
+    
+    <v-row class="d-flex justify-center" style="margin-top:20px;">
+      <v-col cols="6">
 
+        <div class="tw-font-mono tw-text-red-50">
+          <textarea
+            type="text"
+            class="tw-bg-blue-200 tw-text-black "
+            @focus="startGame"
+            @keypress="typing"
+            @keydown.delete="pressDelete"
+            @keydown.space="pressSpace"
+            v-model="inputField"
+            ref="typeField"
+          />
+        </div>
 
-
+      </v-col>
+    </v-row>
      
   <br/>
   <div class="text-center">
@@ -37,8 +39,7 @@
       v-model="dialog"
       width="500"
     >
-   
-
+  
       <v-card>
         <v-card-title class="text-h5 grey lighten-2" >
           Summary
@@ -74,7 +75,7 @@
     </v-dialog>
   </div>
 
-</div>
+  </div>
 </template>
 <script>
 import Axios from "axios";
@@ -126,12 +127,12 @@ export default {
       this.score = 0;
       for (let i = 0; i < this.$refs.dataSpan.length; i++) {
         this.$refs.dataSpan[i].classList.remove(
-          "text-black",
-          "bg-white",
-          "text-red-800",
-          "bg-red-300",
-          "text-green-800",
-          "bg-green-300"
+          "tw-text-black",
+          "tw-bg-white",
+          "tw-tw-text-red-800",
+          "tw-tw-bg-red-300",
+          "tw-tw-text-green-800",
+          "tw-tw-bg-green-300"
         );
       }
     },
@@ -142,16 +143,16 @@ export default {
     updateWord() {
       if (this.$refs.dataSpan[this.currCursor]) {
         this.$refs.dataSpan[this.currCursor].classList.add(
-          "text-black",
-          "bg-white"
+          "tw-text-black",
+          "tw-bg-white"
         );
       }
     },
     updateCursor() {
       if (this.$refs.dataSpan[this.currCursor]) {
         this.$refs.dataSpan[this.currCursor].classList.add(
-          "text-black",
-          "bg-white"
+          "tw-text-black",
+          "tw-bg-white"
         );
       }
     },
@@ -169,21 +170,21 @@ export default {
       if (this.$refs.dataSpan[this.currCursor]) {
         if (event.key === spanTexts[this.currCursor].innerText) {
           this.$refs.dataSpan[this.currCursor].classList.add(
-            "text-green-800",
-            "bg-green-300"
+            "tw-text-green-800",
+            "tw-bg-green-300"
           );
           this.$refs.dataSpan[this.currCursor].classList.remove(
-            "text-red-800",
-            "bg-red-300"
+            "tw-text-red-800",
+            "tw-bg-red-300"
           );
         } else {
           this.$refs.dataSpan[this.currCursor].classList.remove(
-            "text-green-800",
-            "bg-green-300"
+            "tw-text-green-800",
+            "tw-bg-green-300"
           );
           this.$refs.dataSpan[this.currCursor].classList.add(
-            "text-red-800",
-            "bg-red-300"
+            "tw-text-red-800",
+            "tw-bg-red-300"
           );
           this.incorrected++;
         }
@@ -197,14 +198,14 @@ export default {
       this.startGame();
       if (this.currCursor > 0) {
         this.$refs.dataSpan[this.currCursor - 1].classList.remove(
-          "text-green-800",
-          "bg-green-300",
-          "text-red-800",
-          "bg-red-300"
+          "tw-text-green-800",
+          "tw-bg-green-300",
+          "tw-text-red-800",
+          "tw-bg-red-300"
         );
         this.$refs.dataSpan[this.currCursor].classList.remove(
-          "text-black",
-          "bg-white"
+          "tw-text-black",
+          "tw-bg-white"
         );
         console.log("delete");
         this.currCursor--;
@@ -289,14 +290,9 @@ export default {
   },
 };
 </script>
-
 <style>
-textarea{
-  height: 200px;
-  width: 1000px;
-  margin-right: auto;
-  margin-left: auto;
-  justify-content: center;
-}
-
+  textarea{
+    width:100%;
+    height:200px;
+  }
 </style>
