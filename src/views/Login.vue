@@ -198,6 +198,21 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
+    
+    async login() {
+      const data_access = {
+          username: this.username,
+          password: this.password
+      }
+      let res = await Authen.dispatch('login', data_access)
+      console.log(res)
+      if (res.success){
+        this.$swal("Login Success", `Welcome, ${res.user.username}`, "success")
+        this.$router.push('/')
+      } else {
+        this.$swal("Login Failed", res.message,"error")
+      }
+    },
   },
 };
 </script>
