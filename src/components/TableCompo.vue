@@ -4,7 +4,10 @@
       <v-simple-table fixed-header height="600px" fill-height>
         <thead>
           <tr>
-            <th scope="col">Rank</th>
+            <th scope="col">  <v-icon small>mdi-crown</v-icon>
+              Rank
+             
+            </th>
 
             <th scope="col">Time Stamp</th>
             <th scope="col">Username</th>
