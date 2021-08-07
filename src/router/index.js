@@ -44,7 +44,8 @@ const routes = [{
     {
         path: "/login",
         name: "Login",
-        component: Login,
+        component: function() {
+      return import("../views/Login.vue")
     },
     {
         path: "/typing",
@@ -54,7 +55,8 @@ const routes = [{
     {
         path: "/register",
         name: "Register",
-        component: Register,
+        component: function() {
+      return import("../views/Register.vue")
     },
 ];
 
