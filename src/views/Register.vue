@@ -51,24 +51,6 @@ export default {
         }
     },
     methods: {
-        register() {
-            Axios.post('http://localhost:1337/auth/local/register', {
-            username: 'Strapi user',
-            email: 'user@strapi.io',
-            password: 'strapiPassword',
-            })
-            .then(response => {
-            // Handle success.
-            console.log('Well done!');
-            console.log('User profile', response.data.user);
-            console.log('User token', response.data.jwt);
-            })
-            .catch(error => {
-             // Handle error.
-            console.log('An error occurred:', error.response);
-            })
-        },
-
         getAllData() {
             const token = this.tokenData;
             console.log(token);
@@ -78,14 +60,19 @@ export default {
                 },
             });
         },
-        // async register() {
-        //     let res = await Authen.dispatch("register", this.form)
-        //     if (res.success) {
-        //         this.$swal("Register Success", `Welcome, ${res.user.username}`, "success")
-        //     } else {
-        //         this.$swal("Register Failed", res.message, "error")
-        //     }
-        // },
+        async register() {
+            const data_access = {
+                username: this.username,
+                email: this.email,
+                password: this.password
+            }
+            let res = await Authen.dispatch("register", data_access)
+            if (res.success) {
+               this.$swal("Register Success", `Welcome, ${res.user.username}`, "success")
+            } else {
+               this.$swal("Register Failed", res.message, "error")
+            }
+        },
         isAuthen() {
             return Authen.getters.isAuthen
         }
