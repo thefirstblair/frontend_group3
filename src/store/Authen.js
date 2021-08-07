@@ -1,14 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import AuthService from '@/service/AuthService'
-//import Axios from "axios"
+
 
 Vue.use(Vuex)
 
 const auth_key = "authorization"
 let auth = JSON.parse(localStorage.getItem(auth_key))
-    // const user = auth ? auth.user : ""
-    // const jwt = auth ? auth.jwt : ""
 
 const initialstate = {
     user: auth ? auth.user : "",
@@ -52,8 +50,8 @@ export default new Vuex.Store({
             AuthService.logout()
             commit('logoutSuccess')
         },
-        async register({ commit }, { username, password }) {
-            let res = await AuthService.register({ username, password })
+        async register({ commit }, { username, email, password }) {
+            let res = await AuthService.register({ username, email, password })
             if (res.success) {
                 commit("loginSuccess", res.user, res.jwt)
             }

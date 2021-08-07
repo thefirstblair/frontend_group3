@@ -60,11 +60,12 @@ export default {
         }
     },
 
-    async register({ username, password }) {
+    async register({ username, email, password }) {
         try {
             let url = `${api_endpoint}/auth/local/register`
             let body = {
                 username: username,
+                email: email,
                 password: password
             }
             let res = await Axios.post(url, body)
