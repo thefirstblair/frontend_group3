@@ -20,7 +20,7 @@
         <v-container>
           <v-row>
             <v-col ref="vcol" v-for="item in items" :key="item.id" sm="4" md="3" lg="2">
-                <v-card class="mx-auto"  max-width="500" color=#2a5778 >
+                <v-card class="mx-auto"  max-width="500" color=white >
                     <v-img
                       :src="'http://localhost:1337' + item.picture.url"
                       height="100"
