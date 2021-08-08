@@ -6,6 +6,9 @@
       :items="rewards"
       sort-by="name"
       class="elevation-1"
+      :items-per-page="5"
+      style="margin-bottom: 100px;"
+
     >
       <template v-slot:top>
         <v-toolbar flat>
