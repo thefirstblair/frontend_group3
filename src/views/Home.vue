@@ -1,5 +1,5 @@
 <template>
-  <v-container style="padding-top:30vh">
+  <v-container style="padding-top: 30vh">
     <v-row class="white--text" justify="center">
       <v-col class="white--text text-center" cols="12" tag="h1">
         <span class="font-weight-black" style="font-size: 350%">
@@ -9,8 +9,11 @@
         <br />
 
         <span class="font-weight-light" style="font-size: 150%">
-            เกมฝึกทักษะการพิมพ์ดีด เหมาะสำหรับผู้เพิ่งเริ่มต้นและผู้ที่สนใจการพิมพ์ดีด <br/> 
-            เพียงคุณพิมพ์ดีดตัวอักษรตามตัวอย่างในเวลาภายใน 10 วินาที ก็สามารถสะสมคะแนนจากการพิมพ์ดีด<br/>เพื่อนำแต้มไปแลกของรางวัลสุดพิเศษได้ ลองเล่นดูเลย!
+          เกมฝึกทักษะการพิมพ์ดีด
+          เหมาะสำหรับผู้เพิ่งเริ่มต้นและผู้ที่สนใจการพิมพ์ดีด <br />
+          เพียงคุณพิมพ์ดีดตัวอักษรตามตัวอย่างในเวลาภายใน 10 วินาที
+          ก็สามารถสะสมคะแนนจากการพิมพ์ดีด<br />เพื่อนำแต้มไปแลกของรางวัลสุดพิเศษได้
+          ลองเล่นดูเลย!
         </span>
       </v-col>
 
@@ -24,7 +27,6 @@ export default {};
 </script>
 
 <style scoped>
-
 </style>
 
 

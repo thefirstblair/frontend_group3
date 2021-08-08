@@ -48,7 +48,7 @@
                         block
                         :disabled="!valid"
                         color="success"
-                        @click="login"
+                        @click="loginClick"
                       >
                         Login
                       </v-btn>
@@ -112,7 +112,7 @@
                         block
                         :disabled="!valid"
                         color="success"
-                        @click="validate"
+                        @click="register"
                         >Register</v-btn
                       >
                     </v-col>
@@ -165,55 +165,39 @@ export default {
   methods: {
     async loginClick() {
       console.log(this.loginUsername, this.loginPassword);
+      console.log("click");
       let res = await Authen.dispatch("login", {
         username: this.loginUsername,
         password: this.loginPassword,
       });
-      console.log("click");
       console.log("res", res);
-      this.$emit("logon");
-      // if (res.success) {
-      //   console.log("loglog", localStorage.getItem("authorization"));
-      //   const Toase = this.$swal.mixin({
-      //     toast: true,
-      //     position: "bottom-end",
-      //     showConfirmButton: false,
-      //     timerProgressBar: true,
-      //     timer: 2300,
-      //     didOpen: (toast) => {
-      //       toast.addEventListener("mouseenter", this.$swal.stopTimer);
-      //       toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-      //     },
-      //   });
-      //   Toase.fire({
-      //     icon: "success",
-      //     title: "signedin Successfully",
-      //   });
-      // } else {
-      //   Toase.fire({
-      //     icon: "Error",
-      //     title: "",
-      //   });
-      // }
-    },
-    getAllData() {
-      const token = this.tokenData;
-      console.log(token);
-      Axios.get("http://localhost:1337/users", {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const Toase = this.$swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 2300,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", this.$swal.stopTimer);
+          toast.addEventListener("mouseleave", this.$swal.resumeTimer);
         },
       });
-    },
-
-    validate() {
-      if (this.$refs.loginForm.validate()) {
-        // submit form to server/API here...
-        console.log("validate");
-      } else if (this.$refs.registerForm.validate()) {
-        console.log("regis validate");
+      if (res.success) {
+        console.log("res success", res);
+        Toase.fire({
+          icon: "success",
+          title: "signedin Successfully",
+        });
+        this.$emit("logon");
+      } else if (!res.success) {
+        // this.$swal("Login Failed", res.message, "error");
+        Toase.fire({
+          icon: "error",
+          text: res.message,
+        });
       }
     },
+
     reset() {
       this.$refs.form.reset();
     },
@@ -226,29 +210,39 @@ export default {
         username: this.loginUsername,
         password: this.loginPassword,
       };
-      this.$swal.showLoading();
-      let res = await Authen.dispatch("login", data_access);
-      console.log("res login new", res);
-      if (res.success) {
-        const Toase = this.$swal.mixin({
-          toast: true,
-          position: "top",
-          showConfirmButton: false,
-          timerProgressBar: true,
-          timer: 2300,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", this.$swal.stopTimer);
-            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-          },
-        });
-        Toase.fire({
-          icon: "success",
-          title: "signedin Successfully",
-        });
-        // this.$swal("Login Success", `Welcome, ${res.user.username}`, "success");
+      if (!(this.loginPassword && this.loginUsername)) {
+        this.alertBox("error", "Please Enter Your Username or Email");
       } else {
-        this.$swal("Login Failed", res.message, "error");
+        this.$swal.showLoading();
+        let res = await Authen.dispatch("login", data_access);
+        console.log("res login new");
+        if (res.success) {
+          this.$emit("logon");
+        } else {
+          this.$swal("Login Failed", res.message, "error");
+        }
       }
+    },
+    async register() {
+      const data_access = {
+        username: this.username,
+        email: this.email,
+        password: this.password,
+      };
+      let res = await Authen.dispatch("register", data_access);
+      if (res.success) {
+        this.$swal(
+          "Register Success",
+          `Welcome, ${res.user.username}`,
+          "success"
+        );
+        this.$emit("logon");
+      } else {
+        this.$swal("Register Failed", res.message, "error");
+      }
+    },
+    isAuthen() {
+      return Authen.getters.isAuthen;
     },
   },
 };

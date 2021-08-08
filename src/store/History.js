@@ -26,7 +26,7 @@ export default new Vuex.Store({
             commit("fetch", { res });
         },
         async createHistories({ commit }, payload) {
-            let res = await HistoryService.fetchhistories(payload);
+            let res = await HistoryService.createHistories(payload);
             commit("add", res);
         },
     },

@@ -5,10 +5,10 @@
       style="z-index: 201"
       class="justify-center items-center flex tw-bg-opacity-95 tw-fixed"
     >
-      <Login @logon="display = false" />
+      <Login @logon="toggle" />
 
       <button
-        @click="toggleLogin"
+        @click="display = false"
         class="
           tw-bg-opacity-40 tw-h-screen tw-w-screen tw-cursor-default tw-absolute
         "
@@ -31,28 +31,28 @@
               <v-list-item-title>Home</v-list-item-title>
             </v-list-item>
 
-            <v-list-item to="/leaderboard">
+            <v-list-item v-if="isAuthen() && isAdmin()" to="/leaderboard">
               <v-list-item-icon>
                 <v-icon>mdi-crown</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Leaderboard</v-list-item-title>
             </v-list-item>
 
-            <v-list-item to="/reward">
+            <v-list-item v-if="isAuthen() && !isAdmin()" to="/reward">
               <v-list-item-icon>
                 <v-icon>mdi-gift</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Reward</v-list-item-title>
             </v-list-item>
 
-            <v-list-item to="/rewardManager">
+            <v-list-item v-if="isAuthen() && isAdmin()" to="/rewardManager">
               <v-list-item-icon>
                 <v-icon>mdi-cog </v-icon>
               </v-list-item-icon>
               <v-list-item-title>Reward Manager</v-list-item-title>
             </v-list-item>
 
-            <v-list-item to="/history">
+            <v-list-item v-if="isAuthen() && !isAdmin()" to="/history">
               <v-list-item-icon>
                 <v-icon>mdi-table</v-icon>
               </v-list-item-icon>
@@ -62,7 +62,7 @@
         </v-list>
 
         <div class="Logout">
-          <v-btn block @click="toggleLogin"> {{ isLogin }} </v-btn>
+          <v-btn block @click="toggleLoginButton"> {{ isLogin }} </v-btn>
         </div>
       </v-navigation-drawer>
       <router-view />
@@ -73,7 +73,6 @@
 <script>
 import Login from "@/views/Login";
 import Authen from "../src/store/Authen";
-import AuthService from "@/services/AuthService";
 export default {
   name: "App",
   components: { Login },
@@ -96,11 +95,35 @@ export default {
     },
   },
   methods: {
-    async toggleLogin() {
+    isAuthen() {
+      return Authen.getters.isAuthen;
+    },
+    isAdmin() {
+      return Authen.getters.user.role.id === 3;
+    },
+    toggle() {
+      this.display = !this.display;
+    },
+    async toggleLoginButton() {
       if (!Authen.getters.isAuthen) {
-        this.display = !this.display;
+        this.toggle();
       } else {
         Authen.dispatch("logout");
+        const Toase = this.$swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timerProgressBar: true,
+          timer: 2300,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", this.$swal.stopTimer);
+            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+          },
+        });
+        Toase.fire({
+          icon: "success",
+          title: "Logout Successfully",
+        });
       }
     },
   },

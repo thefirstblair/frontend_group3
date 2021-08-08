@@ -52,7 +52,7 @@ const routes = [{
         path: "/typing",
         name: "Typing",
         component: function() {
-            return import ("../views/Login.vue")
+            return import ("../views/Typing.vue")
         }
 
     },
