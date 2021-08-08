@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import AuthService from '@/service/AuthService'
+import AuthService from '@/services/AuthService'
 
 
 Vue.use(Vuex)
@@ -15,9 +15,8 @@ const initialstate = {
 }
 
 export default new Vuex.Store({
-    state: {
-        initialstate,
-    },
+    state: initialstate,
+
     getters: {
         user: (state) => state.user,
         jwt: (state) => state.jwt,
@@ -28,7 +27,7 @@ export default new Vuex.Store({
             state.user = user
             state.jwt = jwt
             state.isAuthen = true
-            console.log("loginsuccccccc", state.isAuthen);
+                // console.log(state.isAuthen);
         },
         logoutSuccess(state) {
             state.user = ""
@@ -40,8 +39,8 @@ export default new Vuex.Store({
         async login({ commit }, { username, password }) {
             let res = await AuthService.login({ username, password })
             if (res.success) {
-                console.log(res.user, res.jwt);
-                console.log("login suc", res);
+                // console.log(res.user, res.jwt);
+                // console.log("login suc", res);
                 commit("loginSuccess", res.user, res.jwt)
             }
             return res

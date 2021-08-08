@@ -4,7 +4,10 @@
       <v-simple-table fixed-header height="600px" fill-height>
         <thead>
           <tr>
-            <th scope="col">Rank</th>
+            <th scope="col">
+              <v-icon small>mdi-crown</v-icon>
+              Rank
+            </th>
 
             <th scope="col">Time Stamp</th>
             <th scope="col">Username</th>
@@ -19,7 +22,13 @@
             <td>{{ index + 1 }}</td>
             <td>{{ timeFormat(item.created_at) }}</td>
             <td>{{ item.users.username }}</td>
-            <td :style="{color: + (headtext == 'EarnPoints') ? 'green' : 'red'}">{{ (item.detail == 'EarnPoints') ? item.amount : "-" + item.amount }}</td>
+            <td
+              :style="{ color: +(headtext == 'EarnPoints') ? 'green' : 'red' }"
+            >
+              {{
+                item.detail == "EarnPoints" ? item.amount : "-" + item.amount
+              }}
+            </td>
           </tr>
         </tbody>
       </v-simple-table>
@@ -28,7 +37,7 @@
 </template>
 
 <script>
-import HistoryService from "@/service/HistoryService";
+import HistoryService from "@/services/HistoryService";
 import moment from "moment";
 
 export default {

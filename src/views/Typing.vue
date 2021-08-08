@@ -1,14 +1,16 @@
 <template>
   <div>
     <div
-      class="tw-flex tw-justify-center tw-mt-4 tw-h-24 tw-text-center tw-text-5xl tw-font-semibold"
+      class="tw-flex tw-justify-center tw-mt-4 tw-h-24 tw-text-center tw-text-5xl tw-font-semibold tw-p-20"
     >
-      <span class="timer">
+    
+      <span class="timer" style="color:white;">
         Time <br>
         {{ timer }}
       </span>
     </div>
-    <div class="tw-font-mono tw-bg-gray-700 tw-text-red-50 tw-text-xl tw-h-18 tw-w-1/2 tw-mt-4 tw-mx-auto tw-p-4">
+    <br/>
+    <div class="tw-font-mono tw-justify-center tw-bg-gray-700 tw-text-red-50 tw-text-xl tw-h-18 tw-w-1/2 tw-mt-4 tw-mx-auto tw-p-20">
       <span v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
         data
       }}</span>
@@ -41,18 +43,22 @@
     >
   
       <v-card>
-        <v-card-title class="text-h5 grey lighten-2" >
-          Summary
+        <v-card-title class="tw-bg-gray-100 tw-justify-center" >
+          หมดเวลา!
+          <audio autoplay>
+              <source src="@/assets/end-sound.wav" type="audio/ogg">
+          </audio>
         </v-card-title>
 
-        <v-card-text> 
-          <span>Raw WPM : {{ grossWPM }} </span>
+      <br/>
+        <v-card-text align="center"> 
+          <span>ค่า Raw WPM ของคุณ คือ: {{ grossWPM }} </span>
           <br />
-          <span>Adjust WPM : {{ netWPM }}</span>
+          <span>ค่า Adjust WPM ของคุณ คือ: {{ netWPM }}</span>
           <br />
-          <span>Errors : {{ incorrected }}</span>
+          <span>Errors จำนวนคำที่พิมพ์ผิด: {{ incorrected }} คำ</span>
           <br />
-          <span>Score : {{ score }} </span>
+          <span>Score คะแนนทั้งหมด: {{ score }} คะแนน</span>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -294,5 +300,6 @@ export default {
   textarea{
     width:100%;
     height:200px;
+    
   }
 </style>

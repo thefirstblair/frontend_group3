@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import RewardService from "@/service/RewardService";
+import RewardService from "@/services/RewardService";
 
 Vue.use(Vuex);
 

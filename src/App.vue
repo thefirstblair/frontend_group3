@@ -5,7 +5,8 @@
       style="z-index: 201"
       class="justify-center items-center flex tw-bg-opacity-95 tw-fixed"
     >
-      <Login @logon="logedin" />
+      <Login @logon="display = false" />
+
       <button
         @click="toggleLogin"
         class="
@@ -14,11 +15,10 @@
         style="z-index: 201"
       ></button>
     </div>
-    <button @click="logedin">click</button>
     <v-main>
       <v-app-bar color="deep-purple accent-4" dark v-if="show">
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-        <v-toolbar-title>TypeWriter {{ isLogin }}</v-toolbar-title>
+        <v-toolbar-title>TypeWriter </v-toolbar-title>
       </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" absolute temporary>
@@ -72,8 +72,8 @@
 
 <script>
 import Login from "@/views/Login";
-import Authen from "@/store/Authen";
-import AuthService from "@/service/AuthService";
+import Authen from "../src/store/Authen";
+import AuthService from "@/services/AuthService";
 export default {
   name: "App",
   components: { Login },
@@ -81,7 +81,6 @@ export default {
     drawer: false,
     show: false,
     display: false,
-    loginStatus: "",
   }),
 
   created() {
@@ -90,30 +89,19 @@ export default {
     } else {
       this.show = true;
     }
-    this.logedin();
-    this.loginStatus = Authen.getters.isAuthen;
   },
   computed: {
     isLogin() {
-      console.log("isloggin", Authen.getters.isAuthen);
-      return this.loginStatus ? "Logout" : "Login";
+      return Authen.getters.isAuthen ? "Logout" : "Login";
     },
   },
   methods: {
-    logedin() {
-      console.log("authen", Authen.getters.isAuthen ? "out" : "in");
-      console.log("authservive", AuthService.isAuthen() ? "out" : "in");
-      console.log("status", this.loginStatus);
-      let auth = JSON.parse(localStorage.getItem("authorization"));
-      console.log("authstorage", auth);
-    },
-    toggleLogin() {
+    async toggleLogin() {
       if (!Authen.getters.isAuthen) {
         this.display = !this.display;
       } else {
-        AuthService.logout();
+        Authen.dispatch("logout");
       }
-      console.log("display", Authen.getters.isAuthen);
     },
   },
 };

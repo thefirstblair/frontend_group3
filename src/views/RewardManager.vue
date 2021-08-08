@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div></div>
+
     <v-data-table
       :headers="headers"
       :items="rewards"
@@ -12,7 +12,7 @@
           <v-toolbar-title>Reward Manager</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <v-dialog v-model="dialog" max-width="500px">
+          <v-dialog v-model="dialog" max-width="400px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
                 New Item
@@ -21,34 +21,38 @@
             <v-card>
               <v-card-title>
                 <span class="text-h5">{{ formTitle }}</span>
+               
               </v-card-title>
-
+              <v-card-subtitle>
+                <br/>
+                <span>โปรดกรอกข้อมูลให้ครบ มิฉะนั้นระบบจะไม่เพิ่มให้ </span>
+                </v-card-subtitle>
               <v-card-text>
                 <v-container>
                   <v-row>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field
+                      <v-text-field required :rules="[() => editedItem.name.length > 0 || 'Required field']"
                         v-model="editedItem.name"
                         label="Reward name"
                       ></v-text-field>
                     </v-col>
 
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field
+                      <v-text-field required :rules="[() => editedItem.points.length > 0 || 'Required field']"
                         v-model="editedItem.points"
                         label="Points"
                       ></v-text-field>
                     </v-col>
 
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field
+                      <v-text-field required  :rules="[() => editedItem.amount.length > 0 || 'Required field']"
                         v-model="editedItem.amount"
                         label="Amount"
                       ></v-text-field>
                     </v-col>
 
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field
+                      <v-text-field required :rules="[() => editedItem.image != null || 'Required field']"
                         v-model="editedItem.image"
                         label="Image URL"
                       ></v-text-field>
@@ -89,11 +93,12 @@
       </template>
 
       <template v-slot:item.image="{ item }">
-        <img
-          class="rewards-image"
+        <v-img
           :src="'http://localhost:1337' + item.picture.url"
           :alt="item.name"
-          align-center
+          class="mx-auto"
+          height="100"
+          width="100"
         />
       </template>
 
@@ -122,12 +127,12 @@ export default {
       {
         text: "Rewards Image",
         value: "image",
-        align: "center",
-        sortable: false,
+       
+        sortable: false, align:'center'
       },
-      { text: "Rewards Name", value: "name" },
-      { text: "Points", value: "points" },
-      { text: "Amount", value: "amount" },
+      { text: "Rewards Name", value: "name", align: 'center'},
+      { text: "Points", value: "points", align: 'center' },
+      { text: "Amount", value: "amount", align: 'center' },
       { text: "Actions", value: "actions", sortable: false },
     ],
     rewards: [],
@@ -147,6 +152,9 @@ export default {
   }),
 
   computed: {
+    isDisabled(){
+        return this.editItem.name.length > 0;
+    },
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
@@ -179,6 +187,7 @@ export default {
   },
 
   methods: {
+    
     async initialize() {
       await RewardStore.dispatch("fetchRewards", this.token);
       this.rewards = RewardStore.getters.rewards;
@@ -229,6 +238,7 @@ export default {
         await this.uploadPicture();
         console.log("resdata save", this.resData);
         this.editedItem.picture = this.resData.data[0].id;
+       
       }
       // update or create object
       if (this.editedIndex > -1) {
@@ -277,12 +287,10 @@ export default {
 </script>
 
 <style scoped>
-.rewards-image {
-  height: 70px;
-}
+
 .wrapper {
   width: 80%;
   max-width: 980px;
-  margin: 60px auto;
+  margin: 60px auto 0;
 }
 </style>

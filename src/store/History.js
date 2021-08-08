@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import HistoryService from "@/service/HistoryService";
+import HistoryService from "@/services/HistoryService";
 
 Vue.use(Vuex);
 

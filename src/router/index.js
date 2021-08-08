@@ -7,7 +7,6 @@ import Register from "@/views/Register"
 Vue.use(VueRouter);
 
 const routes = [{
-
         path: "/",
         name: "Home",
         component: function() {
@@ -52,16 +51,18 @@ const routes = [{
     {
         path: "/typing",
         name: "Typing",
-        component: Typing,
+        component: function() {
+            return import ("../views/Login.vue")
+        }
+
     },
     {
         path: "/register",
         name: "Register",
         component: function() {
             return import ("../views/Register.vue")
-        },
+        }
     }
-
 ];
 
 const router = new VueRouter({

@@ -1,9 +1,10 @@
 <template>
-  <div class="leaderboardpage">
-    <v-container fill-height>
+  <div class="leaderboard">
+    <v-container fill-height  style="padding-top:5vh">
+  
       <v-row align="center" class="white--text" justify="center">
         <v-col class="white--text text-center" cols="12" tag="h1">
-          <span class="font-weight-black" style="font-size: 250%">
+          <span class="font-weight-black" style="font-size: 350%">
             Leaderboard
           </span>
         </v-col>
@@ -80,7 +81,5 @@ export default {
 </script>
 
 <style>
-.leaderboardpage{
-font-family: "Kanit";
-}
+
 </style>

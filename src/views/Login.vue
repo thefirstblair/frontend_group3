@@ -48,7 +48,7 @@
                         block
                         :disabled="!valid"
                         color="success"
-                        @click="loginClick"
+                        @click="login"
                       >
                         Login
                       </v-btn>
@@ -165,7 +165,6 @@ export default {
   methods: {
     async loginClick() {
       console.log(this.loginUsername, this.loginPassword);
-      this.$swal.showLoading();
       let res = await Authen.dispatch("login", {
         username: this.loginUsername,
         password: this.loginPassword,
@@ -173,22 +172,29 @@ export default {
       console.log("click");
       console.log("res", res);
       this.$emit("logon");
-      if (res.success) {
-        const Toase = this.$swal.mixin({
-          toast: true,
-          position: "bottom-end",
-          icon: "success",
-          title: "Logedin Successfully",
-          showConfirmButton: false,
-          timerProgressBar: true,
-          timer: 2300,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", this.$swal.stopTimer);
-            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-          },
-        });
-        Toase.fire();
-      }
+      // if (res.success) {
+      //   console.log("loglog", localStorage.getItem("authorization"));
+      //   const Toase = this.$swal.mixin({
+      //     toast: true,
+      //     position: "bottom-end",
+      //     showConfirmButton: false,
+      //     timerProgressBar: true,
+      //     timer: 2300,
+      //     didOpen: (toast) => {
+      //       toast.addEventListener("mouseenter", this.$swal.stopTimer);
+      //       toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+      //     },
+      //   });
+      //   Toase.fire({
+      //     icon: "success",
+      //     title: "signedin Successfully",
+      //   });
+      // } else {
+      //   Toase.fire({
+      //     icon: "Error",
+      //     title: "",
+      //   });
+      // }
     },
     getAllData() {
       const token = this.tokenData;
@@ -217,14 +223,29 @@ export default {
 
     async login() {
       const data_access = {
-        username: this.username,
-        password: this.password,
+        username: this.loginUsername,
+        password: this.loginPassword,
       };
+      this.$swal.showLoading();
       let res = await Authen.dispatch("login", data_access);
-      console.log(res);
+      console.log("res login new", res);
       if (res.success) {
-        this.$swal("Login Success", `Welcome, ${res.user.username}`, "success");
-        this.$router.push("/");
+        const Toase = this.$swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timerProgressBar: true,
+          timer: 2300,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", this.$swal.stopTimer);
+            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+          },
+        });
+        Toase.fire({
+          icon: "success",
+          title: "signedin Successfully",
+        });
+        // this.$swal("Login Success", `Welcome, ${res.user.username}`, "success");
       } else {
         this.$swal("Login Failed", res.message, "error");
       }
