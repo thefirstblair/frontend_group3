@@ -85,6 +85,8 @@
 </template>
 <script>
 import Axios from "axios";
+import Authen from "../store/Authen";
+import ParagraphService from "../services/Paragraph";
 export default {
   data() {
     return {
@@ -108,17 +110,38 @@ export default {
       score: 0,
       token: "",
       profile: [],
+      word_api: [],
+      word_set: new Set(),
+      newArr: [],
     };
   },
   beforeMount() {
+    this.wordConcat();
     this.reset();
   },
   computed: {
     dataCom() {
-      return this.data_words[this.randomed_number].split("");
+      return this.word_api.join(" ").split("");
     },
   },
   methods: {
+    getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    },
+    async wordConcat() {
+      let res = await ParagraphService.fetchParagraph();
+      console.log("resword", res);
+      for (let i = 0; i < 10; i++) {
+        console.log("in loop", this.getRandomInt(res.data.length));
+        this.word_set.add(res.data[this.getRandomInt(res.data.length)].word);
+        this.word_api.push(res.data[this.getRandomInt(res.data.length)].word);
+
+        // this.word_api.push(" ");
+      }
+      this.newArr = this.word_set.entries();
+      console.log("word set", this.word_set.values());
+      console.log("new word", this.word_api);
+    },
     reset() {
       this.randomed_number = Math.floor(Math.random() * this.data_words.length);
       this.loaded = false;
@@ -266,29 +289,26 @@ export default {
       // this.$router.push({ name: "Summary" });
     },
     async callApi() {
-      let response = await Axios.post("http://localhost:1337/auth/local", {
-        identifier: "admin",
-        password: "admin1",
-      });
-      console.log("User profile", response.data.user);
-      console.log("User token", response.data.jwt);
-      this.token = response.data.jwt;
-      this.profile = response.data.user;
       let payload = {
-        score: parseFloat(this.profile.score) + parseFloat(this.score),
+        score: parseFloat(this.score),
+        wpm: this.netWPM,
       };
-      if (this.netWPM > this.profile.adj_speed) {
-        payload.adj_speed = this.netWPM;
-      }
-      let res = await Axios.put(
-        "http://localhost:1337/users/" + this.profile.id,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
-        }
-      );
+
+      let res = await Authen.dispatch("updateScore", payload);
+      console.log("res callapi", res);
+      // if (this.netWPM > this.profile.adj_speed) {
+      //   payload.adj_speed = this.netWPM;
+      //   }
+      // let res = await Axios.put(
+      //   "http://localhost:1337/users/" + this.profile.id,
+      //   payload,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${this.token}`,
+      //     },
+      //   }
+      // );
+
       console.log(res);
     },
     passScore() {},
@@ -297,9 +317,8 @@ export default {
 };
 </script>
 <style>
-  textarea{
-    width:100%;
-    height:200px;
-    
-  }
+textarea {
+  width: 100%;
+  height: 200px;
+}
 </style>
