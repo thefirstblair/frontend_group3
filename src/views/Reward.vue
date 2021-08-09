@@ -131,13 +131,14 @@ export default {
 <style>
 .reward {
   width: 80%;
-  height: 100vh;
+  height: 80vh;
   border-radius: 1vh;
   padding: 3vh;
-  overflow: auto;
+  overflow:auto;
   margin-left: auto;
   margin-right: auto;
   margin-top: 50px;
+  margin-bottom: 50px;
 
   background: rgb(2, 0, 36);
   background: linear-gradient(
@@ -147,6 +148,9 @@ export default {
     rgba(0, 87, 255, 0) 100%
   );
 }
+
+.reward::-webkit-scrollbar { width: 0 !important }
+
 .center {
   text-align: center;
 }
