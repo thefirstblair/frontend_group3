@@ -1,24 +1,26 @@
-# frontend_group3
+# TypeWriter by Group 3
 
-## Project setup
+## วิธีการติดตั้ง
+
+1. ทำการ Clone Git / Repository โดยวิธีการ Open with GitHub Desktop, ดาวน์โหลดไฟล์ ZIP หรือ ทำการ Clone โดยใช้ Command Line
+2. เมื่อทำการ Clone ลงโฟลเดอร์เสร็จเรียบร้อย ให้ทำการเปิด Command Prompt เพื่อจะเริ่มทำการ Run
+3. ทำการหา Path ไฟล์ที่เก็บโปรเจคไว้ ตัวอย่างเช่น 
+```
+cd folder:/<Project Name>
+```
+4. ทำการ Set up Project
 ```
 npm install
 ```
-
-### Compiles and hot-reloads for development
+5. ทำการ Run Server (สำหรับ Frontend)
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## วิธีการใช้งาน
+* User จำเป็นต้องทำการเข้าสู่ระบบก่อนเพื่อทำการเก็บคะแนนเพื่อนำไปแลกแต้มของรางวัลได้ หากยังไม่มี User สามารถสมัครสมาชิกก่อนได้
+* เริ่มเล่นเกมพิมพ์ดีดฝึกทักษะได้ที่หน้า Home ซึ่งใน 1 รอบของการเล่น ผู้เล่นจะมีเวลาในการพิมพ์ดีดคำที่สุ่มออกมา เพียง 10 วินาทีเท่านั้น ผู้เล่นสามารถสะสมแต้มจากการเล่นนี้เพื่อนำไปแลกของรางวัลต่างๆ ได้
+* ผู้เล่นสามารถนำแต้มที่ตนเองสะสมไว้ไปแลกที่หน้า Reward ได้
+* ผู้เล่นสามารถดูประวัติการใช้แต้ม ได้แต้มของตนเองได้
+ 
