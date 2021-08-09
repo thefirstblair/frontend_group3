@@ -20,14 +20,23 @@
               <th class="text-left" scope="col">Detail</th>
 
               <th class="text-left" scope="col">Amount</th>
-
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in items" :key="item.date">
               <td>{{ timeFormat(item.created_at) }}</td>
               <td>{{ item.detail }}</td>
-              <td :style="{color: + (item.detail == 'EarnPoints') ? 'green' : 'red'}" >{{ (item.detail == 'EarnPoints') ? "+" + item.amount : "-" + item.amount }}</td>
+              <td
+                :style="{
+                  color: +(item.detail == 'EarnPoints') ? 'green' : 'red',
+                }"
+              >
+                {{
+                  item.detail == "EarnPoints"
+                    ? "+" + item.amount
+                    : "-" + item.amount
+                }}
+              </td>
               <!-- <td>{{ displayReward(item) }}</td> -->
             </tr>
           </tbody>
@@ -56,7 +65,7 @@ export default {
       try {
         await HistoryStore.dispatch("fetchHistories");
         this.items = HistoryStore.getters.histories;
-        console.log(HistoryStore.getters.history);
+        console.log("his view", HistoryStore.getters.histories);
       } catch (error) {
         console.log("An error occurred:", error);
       }
@@ -65,9 +74,9 @@ export default {
       return moment(createAt).format("DD/MM/YYYY HH:mm:SS");
     },
   },
-  created() {
+  async created() {
     console.log(moment().format("MMM Do YYY"));
-    this.fetchHistories();
+    await this.fetchHistories();
   },
 };
 </script>
