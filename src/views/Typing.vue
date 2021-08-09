@@ -272,6 +272,9 @@ export default {
         (this.allTyped / 5 - this.incorrected) /
         (this.limit / 60)
       ).toFixed(3);
+      if(this.netWPM < 0) {
+        this.netWPM = 0
+      }
       this.score = (this.netWPM * 2.5).toFixed(3);
      ;
     },
