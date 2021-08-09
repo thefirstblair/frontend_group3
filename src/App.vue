@@ -141,7 +141,7 @@ export default {
         });
         Toase.fire({
           icon: "success",
-          title: "Logout Successfully",
+          title: "ออกจากระบบสำเร็จ",
         });
         this.$router.push("/");
       }

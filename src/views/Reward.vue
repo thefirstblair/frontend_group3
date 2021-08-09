@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <v-row align="justify-center" class="white--text" justify="center">
+      <v-row class="white--text" justify="center">
         <v-col class="white--text text-center" cols="12" tag="h1">
           <span class="font-weight-black" style="font-size: 350%">
             <br />
@@ -21,15 +21,15 @@
               ref="vcol"
               v-for="item in items"
               :key="item.id"
-              sm="4"
-              md="3"
+              sm="5"
+              md="4"
               lg="3"
             >
               <v-card
                 class="mx-auto"
                 color="white"
                 height="339px"
-                width="220px"
+                width="225px"
               >
                 <v-img
                   :src="'http://localhost:1337' + item.picture.url"
@@ -39,7 +39,7 @@
                 ></v-img>
 
                 <div class="center">
-                  <v-card-title class="justify-center">
+                  <v-card-title class="justify-center text-subtitle-1 bold" >
                     <label for="name">
                       <td>{{ item.name }}</td>
                     </label>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="center">
-                  <v-btn
+                  <v-btn style="margin-bottom: 10px"
                     height="50px"
                     block
                     @click="redeemReward(item)"
@@ -157,4 +157,5 @@ export default {
 .center {
   text-align: center;
 }
+
 </style>

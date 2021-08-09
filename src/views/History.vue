@@ -20,7 +20,7 @@
               <th class="text-left" scope="col">Detail</th>
 
               <th class="text-left" scope="col">Amount</th>
-              <th class="text-left" scope="col">Detail</th>
+              <th class="text-left" scope="col">Specific Detail</th>
             </tr>
           </thead>
           <tbody>
@@ -92,5 +92,9 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-top: 0px;
+  
+}
+.leaderboard::-webkit-scrollbar {
+  width: 0 !important;
 }
 </style>
