@@ -1,14 +1,12 @@
 <template>
   <div class="wrapper">
-
     <v-data-table
       :headers="headers"
       :items="rewards"
       sort-by="name"
       class="elevation-1"
       :items-per-page="5"
-      style="margin-bottom: 100px;"
-
+      style="margin-bottom: 100px"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -24,38 +22,55 @@
             <v-card>
               <v-card-title>
                 <span class="text-h5">{{ formTitle }}</span>
-               
               </v-card-title>
               <v-card-subtitle>
-                <br/>
+                <br />
                 <span>โปรดกรอกข้อมูลให้ครบ มิฉะนั้นระบบจะไม่เพิ่มให้ </span>
-                </v-card-subtitle>
+              </v-card-subtitle>
               <v-card-text>
                 <v-container>
                   <v-row>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field required :rules="[() => editedItem.name.length > 0 || 'Required field']"
+                      <v-text-field
+                        required
+                        :rules="[
+                          () => editedItem.name.length > 0 || 'Required field',
+                        ]"
                         v-model="editedItem.name"
                         label="Reward name"
                       ></v-text-field>
                     </v-col>
 
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field required :rules="[() => editedItem.points.length > 0 || 'Required field']"
+                      <v-text-field
+                        required
+                        :rules="[
+                          () =>
+                            editedItem.points.length > 0 || 'Required field',
+                        ]"
                         v-model="editedItem.points"
                         label="Points"
                       ></v-text-field>
                     </v-col>
 
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field required  :rules="[() => editedItem.amount.length > 0 || 'Required field']"
+                      <v-text-field
+                        required
+                        :rules="[
+                          () =>
+                            editedItem.amount.length > 0 || 'Required field',
+                        ]"
                         v-model="editedItem.amount"
                         label="Amount"
                       ></v-text-field>
                     </v-col>
 
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field required :rules="[() => editedItem.image != null || 'Required field']"
+                      <v-text-field
+                        required
+                        :rules="[
+                          () => editedItem.image != null || 'Required field',
+                        ]"
                         v-model="editedItem.image"
                         label="Image URL"
                       ></v-text-field>
@@ -130,12 +145,13 @@ export default {
       {
         text: "Rewards Image",
         value: "image",
-       
-        sortable: false, align:'center'
+
+        sortable: false,
+        align: "center",
       },
-      { text: "Rewards Name", value: "name", align: 'center'},
-      { text: "Points", value: "points", align: 'center' },
-      { text: "Amount", value: "amount", align: 'center' },
+      { text: "Rewards Name", value: "name", align: "center" },
+      { text: "Points", value: "points", align: "center" },
+      { text: "Amount", value: "amount", align: "center" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     rewards: [],
@@ -155,8 +171,8 @@ export default {
   }),
 
   computed: {
-    isDisabled(){
-        return this.editItem.name.length > 0;
+    isDisabled() {
+      return this.editItem.name.length > 0;
     },
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
@@ -174,25 +190,11 @@ export default {
 
   created() {
     this.initialize();
-    Axios.post("http://localhost:1337/auth/local", {
-      identifier: "admin",
-      password: "admin1",
-    })
-      .then((response) => {
-        console.log("User profile", response.data.user);
-        console.log("User token", response.data.jwt);
-        this.tokenData = response.data.jwt;
-        console.log(this.tokenData);
-      })
-      .catch((error) => {
-        console.log("An error occurred:", error.response);
-      });
   },
 
   methods: {
-    
     async initialize() {
-      await RewardStore.dispatch("fetchRewards", this.token);
+      await RewardStore.dispatch("fetchRewards");
       this.rewards = RewardStore.getters.rewards;
       console.log(this.rewards);
     },
@@ -241,7 +243,6 @@ export default {
         await this.uploadPicture();
         console.log("resdata save", this.resData);
         this.editedItem.picture = this.resData.data[0].id;
-       
       }
       // update or create object
       if (this.editedIndex > -1) {
@@ -290,7 +291,6 @@ export default {
 </script>
 
 <style scoped>
-
 .wrapper {
   width: 80%;
   max-width: 980px;

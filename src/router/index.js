@@ -1,8 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "@/views/Login";
-import Typing from "@/views/Typing";
-import Register from "@/views/Register"
+import Authen from '../store/Authen'
 
 Vue.use(VueRouter);
 
@@ -72,3 +70,11 @@ const router = new VueRouter({
 });
 
 export default router;
+
+router.beforeEach((to, from, next) => {
+    if (to.name !== 'Home' && !Authen.getters.isAuthen) {
+        next('/')
+    } else {
+        next()
+    }
+});

@@ -1,26 +1,17 @@
 import Axios from "axios";
-import Authen from '../store/Authen'
+import AuthService from '../services/AuthService'
 
 const api_endpoint = "http://localhost:1337";
 
-const token = Authen.getters.jwt
-const user = Authen.getters.user
-console.log("token his", token);
 
 export default {
 
     getApiHeader() {
-        if (token !== '') {
-            return {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }
-        }
+        return AuthService.getApiHeader()
     },
     async fetchHistories() {
         try {
-            let res = await Axios.get(api_endpoint + "/histories" + '?users=' + user.id, this.getApiHeader());
+            let res = await Axios.get(api_endpoint + "/histories" + '?users=' + AuthService.getUser().id, this.getApiHeader());
             console.log("fetch service", res);
             return res
         } catch (error) {
@@ -30,12 +21,12 @@ export default {
     async createHistories(payload) {
         try {
             let body = {
+                reward: payload.reward,
                 detail: payload.detail,
                 amount: payload.amount,
-                users: payload.id
+                users: payload.users
             }
             let res = await Axios.post(api_endpoint + '/histories', body, this.getApiHeader())
-            console.log("api history", res)
             return res
         } catch (error) {
             return error.response
@@ -51,10 +42,5 @@ export default {
             return error
         }
     },
-    async postMedia(payload) {
-        let res = await Axios.post(api_endpoint + "/upload", payload,
-            this.getApiHeader()
-        );
-        return res;
-    },
+
 };

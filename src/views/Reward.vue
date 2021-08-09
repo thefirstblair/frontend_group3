@@ -78,7 +78,6 @@
 
 <script>
 import RewardStore from "@/store/Reward";
-import Axios from "axios";
 export default {
   data() {
     return {
@@ -89,40 +88,42 @@ export default {
   },
   created() {
     this.fetchReward();
-    console.log(this.$refs);
   },
   methods: {
     async fetchReward() {
-      try {
-        let response = await Axios.post("http://localhost:1337/auth/local", {
-          identifier: "admin",
-          password: "admin1",
-        });
-        console.log("User profile", response.data.user);
-        console.log("User token", response.data.jwt);
-        this.token = response.data.jwt;
-        this.profile = response.data.user;
-      } catch (error) {
-        console.log("An error occurred:", error.response);
-      }
       await RewardStore.dispatch("fetchRewards");
       this.items = RewardStore.getters.rewards;
     },
     async redeemReward(item) {
-      console.log("item", item);
-
-      let res = await RewardStore.dispatch("redeemRewards", item);
-
-      if (res.status == 200) {
-        this.$swal(
-          "แลกของรางวัลเรียบร้อย",
-          "คุณได้ใช้แต้มไป " + item.points + " แต้ม",
-          "success"
-        );
-      } else {
-        this.$swal("error", "Oops...", "Something went wrong!");
-      }
-      console.log("res", res);
+      this.$swal
+        .fire({
+          title: "โปรดยืนยันการแลกของรางวัล",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "ยืนยัน",
+          cancelButtonText: "ยกเลิก",
+        })
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            let res = await RewardStore.dispatch("redeemRewards", item);
+            if (res.status == 200) {
+              this.$swal(
+                "แลกของรางวัลเรียบร้อย",
+                "คุณได้ใช้แต้มไป " + item.points + " แต้ม",
+                "success"
+              );
+            } else if (res === "Sorry, You don't have enough point") {
+              this.$swal(
+                "เกิดข้อผิดพลาดระหว่างการแลกรางวัล",
+                "คุณมีแต้มไม่เพียงพอ",
+                "error"
+              );
+            } else {
+              this.$swal("Oops...", "Something went wrong!", "error");
+            }
+          }
+        });
     },
   },
 };

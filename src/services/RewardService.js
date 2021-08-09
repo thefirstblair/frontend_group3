@@ -1,9 +1,12 @@
 import Axios from "axios";
+import Authen from '../store/Authen'
+import AuthService from "./AuthService";
+import HistoryService from "./HistoryService";
 
 const api_endpoint = "http://localhost:1337";
 
-const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjI4MDIwMjM0LCJleHAiOjE2MzA2MTIyMzR9.tFOftty9yKFTY06Z61x93NlTI72IfRYQuBM1XBqt8f4";
+const token = Authen.getters.jwt
+const user = Authen.getters.user
 
 export default {
     getApiHeader() {
@@ -62,20 +65,20 @@ export default {
     },
     async redeemRewards(payload) {
         if (payload.amount) {
-            payload.amount--
-                console.log("service", payload);
-            try {
-
-                let res = await Axios.put(
-                    api_endpoint + '/rewards/' + payload.id,
-                    payload, this.getApiHeader()
-                )
-                return res
-
-
-            } catch (error) {
-                return error.response.data.message[0]
+            if (Authen.getters.user.score < payload.points) {
+                return "Sorry, You don't have enough point"
             }
+            payload.amount--
+                try {
+                    let res = await Axios.put(
+                        api_endpoint + '/rewards/' + payload.id,
+                        payload, this.getApiHeader()
+                    )
+                    await AuthService.minusScore(payload)
+                    return res
+                } catch (error) {
+                    return error.response.data.message[0]
+                }
         }
     }
 };

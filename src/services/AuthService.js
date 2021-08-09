@@ -1,4 +1,5 @@
 import Axios from "axios"
+import History from '../store/History'
 
 const auth_key = "authorization"
 let auth = JSON.parse(localStorage.getItem(auth_key))
@@ -81,7 +82,6 @@ export default {
                 console.log("NOT 200", res)
             }
         } catch (e) {
-            console.error(e)
             if (e.response.status === 400) {
                 return {
                     success: false,
@@ -105,23 +105,33 @@ export default {
         return res.data
     },
 
-    async updateScore(payload) {
+    async saveScore(payload) {
         try {
-            console.log("before score", payload.score);
-            let res = ''
+
             let me = await this.fetchMyself()
-            if (me.adj_speed > payload.wpm) {
-                payload.wpm = me.adj_speed
+            payload = {
+                adj_speed: payload.adj_speed > me.adj_speed ? payload.adj_speed : me.adj_speed,
+                score: payload.score + me.score
             }
-            payload.score += me.score
-            console.log("before score", payload.score);
-            res = await Axios.put(api_endpoint + '/users/' + me.id, { score: payload.score, adj_speed: payload.wpm }, this.getApiHeader())
-            console.log("after score", res.data.score);
+            let res = await Axios.put(api_endpoint + '/users/' + me.id, payload, this.getApiHeader())
+            if (res.status === 200) {
+                await History.dispatch('createHistories', { reward: 'From Typing', detail: 'EarnPoints', amount: payload.score, users: me.id })
+            }
             return res
         } catch (error) {
             return error
         }
 
+    },
+    async minusScore(payload) {
+        try {
+            let me = await this.fetchMyself();
+            let res = await Axios.put(api_endpoint + '/users/' + me.id, this.getApiHeader())
+            await History.dispatch('createHistories', { reward: payload.id, detail: 'LossPoints', amount: payload.amount, users: me.id })
+            return res
+        } catch (error) {
+            return error
+        }
     }
 
 }

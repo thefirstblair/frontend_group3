@@ -18,14 +18,14 @@
           </tr>
         </thead>
         <tbody style="text-align: left">
-          <tr v-for="(item, index) in sortedArray" :key="index">
+          <tr v-for="(item, index) in selecDate" :key="index">
             <td>{{ index + 1 }}</td>
             <!-- <td>{{ timeFormat(item.created_at) }}</td> -->
             <td>{{ item[0] }}</td>
             <td
               :style="{ color: +(headtext == 'EarnPoints') ? 'green' : 'red' }"
             >
-              {{ headtext == "EarnPoints" ? item[1] : "-" + item[1] }}
+              {{ headtext == "EarnPoints" ? item[1] : item[1] }}
             </td>
           </tr>
         </tbody>
@@ -49,47 +49,43 @@ export default {
   },
   async created() {
     let res = await HistoryService.getLeaderBoard(this.headtext);
-    this.dataAfterCal = this.calData(res.data);
+    this.data_array = res.data;
   },
   computed: {
-    sortedArray() {
-      return this.dataAfterCal.sort((a, b) => b[1] - a[1]);
-    },
-    selectData() {
+    selecDate() {
       let selectedDate = [];
       this.data_array.forEach((element) => {
         if (
           element.created_at >= this.startDate &&
-          element.created_at <= this.endDate
+          element.created_at <= this.endDate &&
+          element.users.role !== 3
         ) {
           selectedDate.push(element);
+          console.log("ele", element);
         }
       });
-      return selectedDate;
+      let leaderMap = new Map();
+      selectedDate.forEach((element) => {
+        let score = 0;
+        if (leaderMap.has(element.users.username)) {
+          score += leaderMap.get(element.users.username) + element.amount;
+        } else {
+          score = element.amount;
+        }
+        leaderMap.set(element.users.username, score);
+      });
+      let dataMap = Array.from(leaderMap);
+      return dataMap.sort((a, b) => b[1] - a[1]);
     },
   },
   methods: {
     timeFormat(createAt) {
       return moment(createAt).format("DD/MM/YYYY HH:mm:SS");
     },
-    calData(arr) {
-      let leaderMap = new Map();
-      arr.forEach((element) => {
-        if (element.detail === this.headtext) {
-          let score = 0;
-          if (leaderMap.has(element.users.username)) {
-            score += leaderMap.get(element.users.username) + element.amount;
-          } else {
-            score = element.amount;
-          }
-          leaderMap.set(element.users.username, score);
-        }
-      });
-      return Array.from(leaderMap);
-    },
+    sortedArray() {},
+    calData() {},
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

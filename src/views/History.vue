@@ -20,6 +20,7 @@
               <th class="text-left" scope="col">Detail</th>
 
               <th class="text-left" scope="col">Amount</th>
+              <th class="text-left" scope="col">Detail</th>
             </tr>
           </thead>
           <tbody>
@@ -37,7 +38,7 @@
                     : "-" + item.amount
                 }}
               </td>
-              <!-- <td>{{ displayReward(item) }}</td> -->
+              <td>{{ displayReward(item) }}</td>
             </tr>
           </tbody>
         </template>
@@ -57,10 +58,10 @@ export default {
   },
 
   methods: {
-    // displayReward(item) {
-    //   console.log(item);
-    //   return item.reward ? item.reward.name : "";
-    // },
+    displayReward(item) {
+      console.log(item);
+      return item.reward ? item.reward.name : "";
+    },
     async fetchHistories() {
       try {
         await HistoryStore.dispatch("fetchHistories");
@@ -93,4 +94,3 @@ export default {
   margin-top: 0px;
 }
 </style>
-

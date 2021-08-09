@@ -91,6 +91,8 @@ export default {
   },
   computed: {
     isLogin() {
+      console.log("ad", this.isAdmin());
+      console.log("log", this.isAuthen());
       return Authen.getters.isAuthen ? "Logout" : "Login";
     },
   },
@@ -99,7 +101,10 @@ export default {
       return Authen.getters.isAuthen;
     },
     isAdmin() {
-      return Authen.getters.user.role.id === 3;
+      if (Authen.getters.isAuthen) {
+        return Authen.getters.user.role.id === 3;
+      }
+      return false;
     },
     toggle() {
       this.display = !this.display;

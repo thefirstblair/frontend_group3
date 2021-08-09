@@ -6,14 +6,17 @@
     
       <span class="timer" style="color:white;">
         Time <br>
-        {{ timer + '.0' }}
+        {{displayTimer > limit ? limit : displayTimer }}
       </span>
     </div>
     <br/>
-    <div class="tw-font-mono tw-justify-center tw-bg-gray-700 tw-text-red-50 tw-text-xl tw-h-18 tw-w-1/2 tw-mt-4 tw-mx-auto tw-p-20">
-      <span v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
+    <div class=" tw-whitespace-nowrap tw-overflow-hidden tw-font-mono tw-justify-center tw-bg-gray-700 tw-text-red-50 tw-text-xl tw-h-10  tw-w-1/2 tw-mt-4 tw-mx-auto tw-p-20">
+      <div class="tw-whitespace-nowrap tw-overflow-hidden">
+
+        <span v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
         data
       }}</span>
+    </div>
     </div>
     
     <v-row class="d-flex justify-center" style="margin-top:20px;">
@@ -84,10 +87,9 @@
   </div>
 </template>
 <script>
-import Axios from "axios";
 import Authen from "../store/Authen";
 import ParagraphService from "../services/Paragraph";
-import HistoryStorage from "../store/History";
+import HistoryStore from "../store/History";
 
 export default {
   data() {
@@ -107,7 +109,7 @@ export default {
       grossWPM: 0,
       netWPM: 0,
       timer: 0,
-      limit: 10,
+      limit: 60,
       typed: 0,
       score: 0,
       token: "",
@@ -119,11 +121,14 @@ export default {
   },
   beforeMount() {
     this.wordConcat();
-    this.reset();
+    // this.reset();
   },
   computed: {
     dataCom() {
-      return this.word_api.join(" ").split("");
+      return this.newArr.join(" ").split("");
+    },
+    displayTimer() {
+      return Number(this.timer.toFixed(2));
     },
   },
   methods: {
@@ -132,40 +137,41 @@ export default {
     },
     async wordConcat() {
       let res = await ParagraphService.fetchParagraph();
-      console.log("resword", res);
-      for (let i = 0; i < 10; i++) {
-        console.log("in loop", this.getRandomInt(res.data.length));
-        this.word_set.add(res.data[this.getRandomInt(res.data.length)].word);
+      for (let i = 0; i < res.data.length; i++) {
         this.word_api.push(res.data[this.getRandomInt(res.data.length)].word);
-
-        // this.word_api.push(" ");
       }
-      this.newArr = this.word_set.entries();
-      console.log("word set", this.word_set.values());
-      console.log("new word", this.word_api);
+      this.word_set = new Set(this.word_api.join(" ").split(" "));
+      this.newArr = Array.from(this.word_set.values());
     },
     reset() {
-      this.randomed_number = Math.floor(Math.random() * this.data_words.length);
-      this.loaded = false;
-      this.dialog = false;
-      this.currCursor = 0;
-      this.inputField = "";
-      this.allTyped = 0;
-      this.incorrected = 0;
-      this.grossWPM = 0;
-      this.netWPM = 0;
-      this.timer = 0;
-      this.score = 0;
-      for (let i = 0; i < this.$refs.dataSpan.length; i++) {
-        this.$refs.dataSpan[i].classList.remove(
-          "tw-text-black",
-          "tw-bg-white",
-          "tw-tw-text-red-800",
-          "tw-tw-bg-red-300",
-          "tw-tw-text-green-800",
-          "tw-tw-bg-green-300"
-        );
-      }
+      location.reload();
+      // this.randomed_number = Math.floor(Math.random() * this.data_words.length);
+      // this.loaded = false;
+      // this.dialog = false;
+      // this.currCursor = 0;
+      // this.inputField = "";
+      // this.allTyped = 0;
+      // this.incorrected = 0;
+      // this.grossWPM = 0;
+      // this.netWPM = 0;
+      // this.timer = 0;
+      // this.score = 0;
+      // this.word_api= [],
+      // this.word_set= new Set(),
+      // this.newArr= []
+
+      // // for (let i = 0; i < this.$refs.dataSpan.length; i++) {
+      // //   this.$refs.dataSpan[i].classList.remove(
+      // //     "tw-text-black",
+      // //     "tw-bg-white",
+      // //     "tw-tw-text-red-800",
+      // //     "tw-tw-bg-red-300",
+      // //     "tw-tw-text-green-800",
+      // //     "tw-tw-bg-green-300"
+      // //   );
+      // // }
+
+      // this.wordConcat()
     },
     startGame() {
       this.divWord = this.data_words[this.randomed_number];
@@ -192,7 +198,6 @@ export default {
 
       if (this.currCursor === 0) {
         this.countUpTimer();
-        console.log("start");
       }
       if (spanTexts[this.currCursor].innerText === "") {
         this.incorrected++;
@@ -265,64 +270,33 @@ export default {
         (this.limit / 60)
       ).toFixed(3);
       this.score = (this.netWPM * 2.5).toFixed(3);
-      console.log("Raw WPM", this.grossWPM);
-      console.log("Raw WPM", this.netWPM);
-      console.log("score >", this.score);
+     ;
     },
     countUpTimer() {
       if (this.limit > this.timer) {
         setTimeout(() => {
-          this.timer += 1;
+          this.timer += 0.1;
+
           this.countUpTimer();
-        }, 1000);
+        }, 100);
       } else {
         this.savedScore();
       }
     },
     savedScore() {
       console.log("saved");
-      console.log("time", this.timer);
-      console.log("type", this.allTyped);
-      console.log("incorr", this.incorrected);
       this.calScore();
       this.callApi();
       this.dialog = true;
 
-      // this.$router.push({ name: "Summary" });
     },
     async callApi() {
       let payload = {
         score: parseFloat(this.score),
-        wpm: this.netWPM,
+        adj_speed: this.netWPM,
       };
-
-      let history = await HistoryStorage.dispatch("createHistories",{
-        detail:'EarnPoints',
-        amount:parseFloat(this.score),
-        id:Authen.state.user.id
-      });
-      
-      console.log("history create",history);
-
-      let res = await Authen.dispatch("updateScore", payload);
-      console.log("res callapi", res);
-      // if (this.netWPM > this.profile.adj_speed) {
-      //   payload.adj_speed = this.netWPM;
-      //   }
-      // let res = await Axios.put(
-      //   "http://localhost:1337/users/" + this.profile.id,
-      //   payload,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${this.token}`,
-      //     },
-      //   }
-      // );
-
-      console.log(res);
+      let res = await Authen.dispatch("saveScore", payload);
     },
-    passScore() {},
-    value() {},
   },
 };
 </script>
