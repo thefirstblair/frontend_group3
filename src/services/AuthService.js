@@ -105,6 +105,10 @@ export default {
         return res.data
     },
 
+    async setData(payload) {
+        localStorage.setItem(auth_key, JSON.stringify(payload))
+    },
+
     async saveScore(payload) {
         try {
 
@@ -115,6 +119,7 @@ export default {
             }
             let res = await Axios.put(api_endpoint + '/users/' + me.id, payload, this.getApiHeader())
             if (res.status === 200) {
+                this.setData({ user: res.data, jwt: this.getJwt() })
                 await History.dispatch('createHistories', { reward: 'From Typing', detail: 'EarnPoints', amount: payload.score, users: me.id })
             }
             return res

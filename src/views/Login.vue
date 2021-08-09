@@ -164,13 +164,11 @@ export default {
   },
   methods: {
     async loginClick() {
-      console.log(this.loginUsername, this.loginPassword);
-      console.log("click");
+      this.$swal.showLoading();
       let res = await Authen.dispatch("login", {
         username: this.loginUsername,
         password: this.loginPassword,
       });
-      console.log("res", res);
       const Toase = this.$swal.mixin({
         toast: true,
         position: "top",
@@ -183,7 +181,6 @@ export default {
         },
       });
       if (res.success) {
-        console.log("res success", res);
         Toase.fire({
           icon: "success",
           title: "Signed In Successfully",
@@ -230,15 +227,28 @@ export default {
         password: this.password,
       };
       let res = await Authen.dispatch("register", data_access);
+      const Toase = this.$swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 2300,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", this.$swal.stopTimer);
+          toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+        },
+      });
       if (res.success) {
-        this.$swal(
-          "Register Success",
-          `Welcome, ${res.user.username}`,
-          "success"
-        );
+        Toase.fire({
+          icon: "success",
+          title: "Signup In Successfully",
+        });
         this.$emit("logon");
       } else {
-        this.$swal("Register Failed", res.message, "error");
+        Toase.fire({
+          icon: "error",
+          title: "ผิดพลาดในการสมัครสมาชิก",
+        });
       }
     },
     isAuthen() {
@@ -250,6 +260,6 @@ export default {
 
 <style>
 .swal2-popup.swal2-toast {
-  box-shadow: 0 0 0.625em #f00000 !important;
+  box-shadow: 0 0 0 #9dc3ca !important;
 }
 </style>

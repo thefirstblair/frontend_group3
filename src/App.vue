@@ -5,7 +5,7 @@
       style="z-index: 201"
       class="justify-center items-center flex tw-bg-opacity-95 tw-fixed"
     >
-      <Login @logon="toggle" />
+      <Login @logon="logedin" />
 
       <button
         @click="display = false"
@@ -19,6 +19,10 @@
       <v-app-bar color="deep-purple accent-4" dark v-if="show">
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
         <v-toolbar-title>TypeWriter </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <h1 class="tw-mr-6 tw-text-xl">
+          <span class="tw-mx-4">Total Points :</span> {{ scoreDisplay }}
+        </h1>
       </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" absolute temporary>
@@ -91,12 +95,17 @@ export default {
   },
   computed: {
     isLogin() {
-      console.log("ad", this.isAdmin());
-      console.log("log", this.isAuthen());
       return Authen.getters.isAuthen ? "Logout" : "Login";
+    },
+    scoreDisplay() {
+      return Authen.getters.user.score;
     },
   },
   methods: {
+    logedin() {
+      this.toggle();
+      location.reload();
+    },
     isAuthen() {
       return Authen.getters.isAuthen;
     },
@@ -129,6 +138,7 @@ export default {
           icon: "success",
           title: "Logout Successfully",
         });
+        this.$router.push("/");
       }
     },
   },

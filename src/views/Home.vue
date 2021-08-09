@@ -17,13 +17,24 @@
         </span>
       </v-col>
 
-      <v-btn to="/typing" elevation="2" x-large size="200"> Play now </v-btn>
+      <v-btn to="/typing" elevation="2" x-large size="200" @click="checkLogin">
+        Play now
+      </v-btn>
     </v-row>
   </v-container>
 </template>
 
 <script>
-export default {};
+import Authen from "../store/Authen";
+export default {
+  methods: {
+    checkLogin() {
+      if (!Authen.getters.isAuthen) {
+        this.$swal("Please Login First", "", "info");
+      }
+    },
+  },
+};
 </script>
 
 <style scoped></style>

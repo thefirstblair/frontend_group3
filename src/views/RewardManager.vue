@@ -188,8 +188,8 @@ export default {
     },
   },
 
-  created() {
-    this.initialize();
+  async created() {
+    await this.initialize();
   },
 
   methods: {

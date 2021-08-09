@@ -109,7 +109,7 @@ export default {
       grossWPM: 0,
       netWPM: 0,
       timer: 0,
-      limit: 60,
+      limit: 10,
       typed: 0,
       score: 0,
       token: "",
@@ -119,8 +119,11 @@ export default {
       newArr: [],
     };
   },
-  beforeMount() {
-    this.wordConcat();
+  async created() {
+    await this.wordConcat()
+  },
+  async beforeMount() {
+    await this.wordConcat();
     // this.reset();
   },
   computed: {

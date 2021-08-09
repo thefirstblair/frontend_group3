@@ -86,8 +86,8 @@ export default {
       user: [],
     };
   },
-  created() {
-    this.fetchReward();
+  async created() {
+    await this.fetchReward();
   },
   methods: {
     async fetchReward() {
@@ -135,7 +135,7 @@ export default {
   height: 80vh;
   border-radius: 1vh;
   padding: 3vh;
-  overflow:auto;
+  overflow: auto;
   margin-left: auto;
   margin-right: auto;
   margin-top: 50px;
@@ -150,7 +150,9 @@ export default {
   );
 }
 
-.reward::-webkit-scrollbar { width: 0 !important }
+.reward::-webkit-scrollbar {
+  width: 0 !important;
+}
 
 .center {
   text-align: center;
