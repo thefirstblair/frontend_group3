@@ -87,6 +87,8 @@
 import Axios from "axios";
 import Authen from "../store/Authen";
 import ParagraphService from "../services/Paragraph";
+import HistoryStorage from "../store/History";
+
 export default {
   data() {
     return {
@@ -293,6 +295,14 @@ export default {
         score: parseFloat(this.score),
         wpm: this.netWPM,
       };
+
+      let history = await HistoryStorage.dispatch("createHistories",{
+        detail:'EarnPoints',
+        amount:parseFloat(this.score),
+        id:Authen.state.user.id
+      });
+      
+      console.log("history create",history);
 
       let res = await Authen.dispatch("updateScore", payload);
       console.log("res callapi", res);

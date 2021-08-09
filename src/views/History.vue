@@ -21,7 +21,6 @@
 
               <th class="text-left" scope="col">Amount</th>
 
-              <th class="text-left" scope="col">Balance</th>
             </tr>
           </thead>
           <tbody>
@@ -29,7 +28,7 @@
               <td>{{ timeFormat(item.created_at) }}</td>
               <td>{{ item.detail }}</td>
               <td :style="{color: + (item.detail == 'EarnPoints') ? 'green' : 'red'}" >{{ (item.detail == 'EarnPoints') ? "+" + item.amount : "-" + item.amount }}</td>
-              <td>{{ displayReward(item) }}</td>
+              <!-- <td>{{ displayReward(item) }}</td> -->
             </tr>
           </tbody>
         </template>
@@ -49,10 +48,10 @@ export default {
   },
 
   methods: {
-    displayReward(item) {
-      console.log(item);
-      return item.reward ? item.reward.name : "";
-    },
+    // displayReward(item) {
+    //   console.log(item);
+    //   return item.reward ? item.reward.name : "";
+    // },
     async fetchHistories() {
       try {
         await HistoryStore.dispatch("fetchHistories");

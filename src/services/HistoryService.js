@@ -1,9 +1,10 @@
 import Axios from "axios";
 
-const id = 4
 const api_endpoint = "http://localhost:1337";
-const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjI4MTgyODUxLCJleHAiOjE2MzA3NzQ4NTF9.SDI6vsEXyU3zNCYDyWJvCwtWb0J49JKAzy927vtzE5s'
+const auth_key = "authorization"
+let auth = JSON.parse(localStorage.getItem(auth_key))
+const token = auth.jwt
+
 export default {
 
     getApiHeader() {
@@ -17,20 +18,21 @@ export default {
     },
     async fetchHistories() {
         try {
-            let res = await Axios.get(api_endpoint + "/histories" + '?users=' + id, this.getApiHeader());
+            let res = await Axios.get(api_endpoint + "/histories" + '?users=' + auth.user.id, this.getApiHeader());
             return res
         } catch (error) {
             return error
         }
     },
-    async createLossHistory(payload) {
+    async createHistories(payload) {
         try {
             let body = {
-                detail: 'loss',
+                detail: payload.detail,
                 amount: payload.amount,
                 users: payload.id
             }
-            let res = await Axios.post(api_endpoint + 'history', body, this.getApiHeader())
+            let res = await Axios.post(api_endpoint + '/histories', body, this.getApiHeader())
+            console.log("api history",res)
             return res
         } catch (error) {
             return error.response
