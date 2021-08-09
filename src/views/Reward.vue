@@ -19,13 +19,13 @@
       <v-main>
         <v-container>
           <v-row>
-            <v-col ref="vcol" v-for="item in items" :key="item.id" sm="4" md="3" lg="2">
-                <v-card class="mx-auto"  max-width="500" color=white >
+            <v-col ref="vcol" v-for="item in items" :key="item.id" sm="4" md="3" lg="3">
+                <v-card class="mx-auto" color=white height="339px" width="220px"  >
                     <v-img
                       :src="'http://localhost:1337' + item.picture.url"
-                      height="100"
-                      width="100"
-                     class="mx-auto white--text align-end"
+                      height="180px"
+                      
+                      class="mx-auto white--text align-end"
                       aspect-ratio="1"
 
                     ></v-img>
@@ -56,8 +56,9 @@
               </div>
 
               
-                <div class="center">
-                  <v-btn @click="redeemReward(item) " :disabled="item.amount===0">Redeem Reward</v-btn>
+                <div class="center" >
+                   <v-btn height="50px" block @click="redeemReward(item) " :disabled="item.amount===0">Redeem Reward</v-btn>
+                  
                 </div>
               </v-card>
             </v-col>

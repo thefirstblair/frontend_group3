@@ -11,7 +11,7 @@
 
         <template>
           <v-row>
-            <v-col cols="3">
+            <v-col cols="4">
               <v-date-picker
                 header-color="green lighten-1"
                 v-model="dates"
@@ -19,7 +19,7 @@
               ></v-date-picker>
             </v-col>
 
-            <v-col class="white--text text-center" cols="9" tag="h1">
+            <v-col class="white--text text-center" cols="8" tag="h1">
               <v-card color="basil">
                 <v-tabs
                   v-model="tab"

@@ -6,7 +6,7 @@
     
       <span class="timer" style="color:white;">
         Time <br>
-        {{ timer }}
+        {{ timer + '.0' }}
       </span>
     </div>
     <br/>
