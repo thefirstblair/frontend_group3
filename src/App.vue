@@ -21,6 +21,8 @@
         <v-toolbar-title>TypeWriter </v-toolbar-title>
         <v-spacer></v-spacer>
         <h1 class="tw-mr-6 tw-text-xl">
+          <span class="tw-mx-4">Username :</span>
+          <span> {{ nameDisplay }} </span>
           <span class="tw-mx-4">Total Points :</span> {{ scoreDisplay }}
         </h1>
       </v-app-bar>
@@ -99,6 +101,9 @@ export default {
     },
     scoreDisplay() {
       return Authen.getters.user.score;
+    },
+    nameDisplay() {
+      return Authen.getters.user.username;
     },
   },
   methods: {
