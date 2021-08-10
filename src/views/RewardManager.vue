@@ -67,10 +67,6 @@
 
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        required
-                        :rules="[
-                          () => editedItem.image != null || 'Required field',
-                        ]"
                         v-model="editedItem.image"
                         label="Image URL"
                       ></v-text-field>
@@ -131,6 +127,7 @@
 <script>
 import Axios from "axios";
 import RewardStore from "@/store/Reward";
+import AuthService from "../services/AuthService";
 let api_endpoint = "http://localhost:1337";
 export default {
   name: "Rewards",
@@ -253,7 +250,7 @@ export default {
         });
       } else {
         this.postReward();
-        console.log(this.rewards);
+        console.log("else", this.rewards);
       }
       // fetch new rewards data to update picture id with object picture
       await RewardStore.dispatch("fetchRewards");
@@ -271,11 +268,11 @@ export default {
 
       // upload picture to database
       // get response data to use with relation
-      this.resData = await Axios.post(api_endpoint + "/upload", data, {
-        headers: {
-          Authorization: `Bearer ${this.tokenData}`,
-        },
-      });
+      this.resData = await Axios.post(
+        api_endpoint + "/upload",
+        data,
+        AuthService.getApiHeader()
+      );
     },
     async postReward() {
       let payload = {
@@ -284,7 +281,7 @@ export default {
         amount: this.editedItem.amount,
         picture: this.resData.data[0].id,
       };
-      RewardStore.dispatch("createRewards", payload);
+      await RewardStore.dispatch("createRewards", payload);
     },
   },
 };

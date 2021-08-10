@@ -34,6 +34,7 @@ export default new Vuex.Store({
         async createRewards({ commit }, payload) {
             let res = await RewardService.createRewards(payload);
             commit("add", res);
+            console.log("ressreward", res);
         },
         async updateRewards({ commit }, payload) {
             let res = await RewardService.updateRewards(payload);

@@ -71,6 +71,8 @@ export default {
   },
   methods: {
     getToday() {
+      console.log(moment(new Date().getDate + 1).format("YYYY-MM-DD"));
+
       return moment(new Date()).format("YYYY-MM-DD");
     },
   },

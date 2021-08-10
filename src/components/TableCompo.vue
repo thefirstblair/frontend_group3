@@ -56,11 +56,15 @@ export default {
     selecDate() {
       let selectedDate = [];
       this.data_array.forEach((element) => {
+        console.log(this.endDate);
         if (
           element.created_at >= this.startDate &&
           element.created_at <= this.endDate &&
           element.users.role !== 3
         ) {
+          console.log("name", element.users.username);
+          console.log("data", element.created_at);
+          console.log("point", element.amount);
           selectedDate.push(element);
         }
       });

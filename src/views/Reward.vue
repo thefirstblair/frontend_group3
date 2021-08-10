@@ -29,7 +29,7 @@
                 class="mx-auto"
                 color="white"
                 height="339px"
-                width="225px"
+                width="250px"
               >
                 <v-img
                   :src="'http://localhost:1337' + item.picture.url"
@@ -39,7 +39,7 @@
                 ></v-img>
 
                 <div class="center">
-                  <v-card-title class="justify-center text-subtitle-1 bold" >
+                  <v-card-title class="justify-center text-subtitle-1 bold ">
                     <label for="name">
                       <td>{{ item.name }}</td>
                     </label>
@@ -59,7 +59,8 @@
                 </div>
 
                 <div class="center">
-                  <v-btn style="margin-bottom: 10px"
+                  <v-btn
+                    style="margin-bottom: 10px"
                     height="50px"
                     block
                     @click="redeemReward(item)"
@@ -108,12 +109,13 @@ export default {
           if (result.isConfirmed) {
             let res = await RewardStore.dispatch("redeemRewards", item);
             if (res.status == 200) {
-              this.$swal(
+              await this.$swal(
                 "แลกของรางวัลเรียบร้อย",
                 "คุณได้ใช้แต้มไป " + item.points + " แต้ม",
                 "success"
               );
-              this.fetchReward();
+              location.reload();
+              // this.fetchReward();
             } else if (res === "Sorry, You don't have enough point") {
               this.$swal(
                 "เกิดข้อผิดพลาดระหว่างการแลกรางวัล",
@@ -156,5 +158,4 @@ export default {
 .center {
   text-align: center;
 }
-
 </style>

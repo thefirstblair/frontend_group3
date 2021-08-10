@@ -20,11 +20,12 @@
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
         <v-toolbar-title>TypeWriter </v-toolbar-title>
         <v-spacer></v-spacer>
-        <h1 class="tw-mr-6 tw-text-xl">
+        <h1 v-if="isAuthen()" class="tw-mr-6 tw-text-xl">
           <span class="tw-mx-4">Username :</span>
           <span> {{ nameDisplay }} </span>
-          <span class="tw-mx-4">Total Points :</span>
-          {{ scoreDisplay ? scoreDisplay : 0 }}
+          <span v-if="!isAdmin()" class="tw-mx-4"
+            >Total Points : {{ scoreDisplay ? scoreDisplay : 0 }}</span
+          >
         </h1>
       </v-app-bar>
 
@@ -190,5 +191,4 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(133, 27, 175);
 }
-
 </style>

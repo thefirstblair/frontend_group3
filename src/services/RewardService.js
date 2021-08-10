@@ -30,8 +30,7 @@ export default {
         try {
             let res = await Axios.post(
                 api_endpoint + "/rewards",
-                payload,
-                this.getApiHeader()
+                payload, AuthService.getApiHeader()
             );
             return res;
         } catch (e) {
