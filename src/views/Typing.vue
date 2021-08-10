@@ -10,7 +10,9 @@
       </span>
     </div>
     <br/>
-    <div class=" tw-whitespace-nowrap tw-overflow-hidden tw-font-mono tw-justify-center tw-bg-gray-700 tw-text-red-50 tw-text-xl tw-h-10  tw-w-1/2 tw-mt-4 tw-mx-auto tw-p-20">
+    <div class="tw-whitespace-nowrap tw-overflow-hidden tw-font-mono tw-bg-gray-700 tw-text-red-50 tw-text-xl tw-mt-4 tw-mx-auto tw-p-20 tw-pt-10 tw-pb-12" 
+      style="width: 765px; height: 100px; text-align: center;"
+    >
       <div class="tw-whitespace-nowrap tw-overflow-hidden">
 
         <span v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
@@ -20,12 +22,13 @@
     </div>
     
     <v-row class="d-flex justify-center" style="margin-top:20px;">
-      <v-col cols="6">
+      <v-col cols="5">
 
         <div class="tw-font-mono tw-text-red-50">
           <textarea
             type="text"
             class="tw-bg-blue-200 tw-text-black "
+            style="padding-left:77px; padding-top:20px;"
             @focus="startGame"
             @keypress="typing"
             @keydown.delete="pressDelete"
