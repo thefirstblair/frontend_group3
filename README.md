@@ -24,3 +24,15 @@ npm run serve
 * ผู้เล่นสามารถนำแต้มที่ตนเองสะสมไว้ไปแลกที่หน้า Reward ได้
 * ผู้เล่นสามารถดูประวัติการใช้แต้ม ได้แต้มของตนเองได้
  
+ ## username
+
+#### Admin 
+* username : admin
+* password : 123456
+
+#### normal user
+* username : user1
+* password : 11111111
+
+* username : usere8
+* password : 11111111
