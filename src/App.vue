@@ -169,4 +169,26 @@ body {
   width: 100vw;
   height: 100%;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  transition: 0.5s;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f5deff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(177, 118, 255);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(133, 27, 175);
+}
+
 </style>
