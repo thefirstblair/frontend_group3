@@ -183,7 +183,7 @@ export default {
       if (res.success) {
         Toase.fire({
           icon: "success",
-          title: "Signed In Successfully",
+          title: "เข้าสู่ระบบสำเร็จ",
         });
         this.$emit("logon");
       } else if (!res.success) {
@@ -241,7 +241,7 @@ export default {
       if (res.success) {
         Toase.fire({
           icon: "success",
-          title: "Signup In Successfully",
+          title: "สมัครสมาชิกสำเร็จ",
         });
         this.$emit("logon");
       } else {
