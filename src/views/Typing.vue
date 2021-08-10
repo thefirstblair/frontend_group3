@@ -109,7 +109,7 @@ export default {
       grossWPM: 0,
       netWPM: 0,
       timer: 0,
-      limit: 10,
+      limit: 30,
       typed: 0,
       score: 0,
       token: "",
@@ -302,6 +302,7 @@ export default {
         adj_speed: this.netWPM,
       };
       let res = await Authen.dispatch("saveScore", payload);
+      console.log("callApi", res);
     },
   },
 };

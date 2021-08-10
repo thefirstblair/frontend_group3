@@ -18,6 +18,7 @@ export default {
     },
 
     getApiHeader() {
+        console.log("token", jwt);
         if (jwt !== "") {
             return {
                 headers: {
@@ -113,14 +114,13 @@ export default {
         try {
 
             let me = await this.fetchMyself()
-            payload = {
-                adj_speed: payload.adj_speed > me.adj_speed ? payload.adj_speed : me.adj_speed,
-                score: payload.score + me.score
-            }
-            let res = await Axios.put(api_endpoint + '/users/' + me.id, payload, this.getApiHeader())
+
+            payload.adj_speed = payload.adj_speed > me.adj_speed ? payload.adj_speed : me.adj_speed
+
+            let res = await Axios.put(api_endpoint + '/users/' + me.id, { adj_speed: payload.adj_speed, score: payload.score + me.score }, this.getApiHeader())
             if (res.status === 200) {
                 this.setData({ user: res.data, jwt: this.getJwt() })
-                await History.dispatch('createHistories', { reward: 'From Typing', detail: 'EarnPoints', amount: payload.score, users: me.id })
+                await History.dispatch('createHistories', { detail: 'EarnPoints', amount: payload.score, users: me.id })
             }
             return res
         } catch (error) {
@@ -130,8 +130,10 @@ export default {
     },
     async minusScore(payload) {
         try {
+
             let me = await this.fetchMyself();
-            let res = await Axios.put(api_endpoint + '/users/' + me.id, this.getApiHeader())
+            me.score -= payload.point
+            let res = await Axios.put(api_endpoint + '/users/' + me.id, me, this.getApiHeader())
             await History.dispatch('createHistories', { reward: payload.id, detail: 'LossPoints', amount: payload.amount, users: me.id })
             return res
         } catch (error) {

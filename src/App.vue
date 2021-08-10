@@ -23,7 +23,8 @@
         <h1 class="tw-mr-6 tw-text-xl">
           <span class="tw-mx-4">Username :</span>
           <span> {{ nameDisplay }} </span>
-          <span class="tw-mx-4">Total Points :</span> {{ scoreDisplay }}
+          <span class="tw-mx-4">Total Points :</span>
+          {{ scoreDisplay ? scoreDisplay : 0 }}
         </h1>
       </v-app-bar>
 

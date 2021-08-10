@@ -1,7 +1,6 @@
 <template>
   <div class="leaderboard">
-    <v-container fill-height  style="padding-top:5vh">
-  
+    <v-container fill-height style="padding-top:5vh">
       <v-row align="center" class="white--text" justify="center">
         <v-col class="white--text text-center" cols="12" tag="h1">
           <span class="font-weight-black" style="font-size: 350%">
@@ -47,10 +46,8 @@
                 </v-tabs-items>
               </v-card>
             </v-col>
-
-
           </v-row>
-          </template>
+        </template>
       </v-row>
     </v-container>
   </div>
@@ -64,7 +61,7 @@ export default {
   components: { TableCompo },
   data() {
     return {
-      dates: ["2021-07-1", this.getToday()],
+      dates: ["2021-08-05", this.getToday()],
       tab: null,
       items: [
         { tab: "Earn Points", content: "EarnPoints" },
@@ -80,6 +77,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

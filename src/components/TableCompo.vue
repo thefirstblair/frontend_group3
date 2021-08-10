@@ -25,7 +25,7 @@
             <td
               :style="{ color: +(headtext == 'EarnPoints') ? 'green' : 'red' }"
             >
-              {{ headtext == "EarnPoints" ? item[1] : item[1] }}
+              {{ item[1] }}
             </td>
           </tr>
         </tbody>
@@ -50,6 +50,7 @@ export default {
   async created() {
     let res = await HistoryService.getLeaderBoard(this.headtext);
     this.data_array = res.data;
+    console.log("data", this.data_array);
   },
   computed: {
     selecDate() {
@@ -61,7 +62,6 @@ export default {
           element.users.role !== 3
         ) {
           selectedDate.push(element);
-          console.log("ele", element);
         }
       });
       let leaderMap = new Map();
@@ -82,8 +82,6 @@ export default {
     timeFormat(createAt) {
       return moment(createAt).format("DD/MM/YYYY HH:mm:SS");
     },
-    sortedArray() {},
-    calData() {},
   },
 };
 </script>

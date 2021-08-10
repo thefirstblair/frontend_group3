@@ -12,7 +12,6 @@ export default {
     async fetchHistories() {
         try {
             let res = await Axios.get(api_endpoint + "/histories" + '?users=' + AuthService.getUser().id, this.getApiHeader());
-            console.log("fetch service", res);
             return res
         } catch (error) {
             return error

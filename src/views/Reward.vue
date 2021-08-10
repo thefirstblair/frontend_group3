@@ -113,6 +113,7 @@ export default {
                 "คุณได้ใช้แต้มไป " + item.points + " แต้ม",
                 "success"
               );
+              this.fetchReward();
             } else if (res === "Sorry, You don't have enough point") {
               this.$swal(
                 "เกิดข้อผิดพลาดระหว่างการแลกรางวัล",
