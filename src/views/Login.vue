@@ -48,7 +48,7 @@
                         block
                         :disabled="!valid"
                         color="success"
-                        @click="loginClick"
+                        @click="login"
                       >
                         Login
                       </v-btn>
@@ -128,7 +128,6 @@
 </template>
 
 <script>
-import Axios from "axios";
 import Authen from "@/store/Authen";
 export default {
   data() {
@@ -140,14 +139,12 @@ export default {
         { name: "Register", icon: "mdi-account-outline" },
       ],
       valid: true,
-
       username: "",
       email: "",
       password: "",
       verify: "",
       loginPassword: "",
       loginUsername: "",
-
       show1: false,
       rules: {
         required: (value) => !!value || "Required.",
@@ -163,7 +160,7 @@ export default {
     },
   },
   methods: {
-    async loginClick() {
+    async login() {
       this.$swal.showLoading();
       let res = await Authen.dispatch("login", {
         username: this.loginUsername,
@@ -187,7 +184,6 @@ export default {
         });
         this.$emit("logon");
       } else if (!res.success) {
-        // this.$swal("Login Failed", res.message, "error");
         Toase.fire({
           icon: "error",
           text: res.message,
@@ -195,31 +191,6 @@ export default {
       }
     },
 
-    reset() {
-      this.$refs.form.reset();
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation();
-    },
-
-    async login() {
-      const data_access = {
-        username: this.loginUsername,
-        password: this.loginPassword,
-      };
-      if (!(this.loginPassword && this.loginUsername)) {
-        this.alertBox("error", "Please Enter Your Username or Email");
-      } else {
-        this.$swal.showLoading();
-        let res = await Authen.dispatch("login", data_access);
-        console.log("res login new");
-        if (res.success) {
-          this.$emit("logon");
-        } else {
-          this.$swal("Login Failed", res.message, "error");
-        }
-      }
-    },
     async register() {
       const data_access = {
         username: this.username,

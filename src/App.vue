@@ -145,7 +145,7 @@ export default {
           icon: "success",
           title: "ออกจากระบบสำเร็จ",
         });
-        this.$router.push("/");
+        location.reload();
       }
     },
   },

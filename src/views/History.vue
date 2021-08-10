@@ -66,17 +66,13 @@ export default {
       try {
         await HistoryStore.dispatch("fetchHistories");
         this.items = HistoryStore.getters.histories;
-        console.log("his view", HistoryStore.getters.histories);
-      } catch (error) {
-        console.log("An error occurred:", error);
-      }
+      } catch (error) {}
     },
     timeFormat(createAt) {
       return moment(createAt).format("DD/MM/YYYY HH:mm:SS");
     },
   },
   async created() {
-    console.log(moment().format("MMM Do YYY"));
     await this.fetchHistories();
   },
 };
@@ -92,7 +88,6 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-top: 0px;
-  
 }
 .leaderboard::-webkit-scrollbar {
   width: 0 !important;

@@ -132,9 +132,7 @@ export default {
         try {
 
             let me = await this.fetchMyself();
-            console.log("asdas", me);
             me.score -= payload.points
-            console.log("mescorel", me.score);
             let res = await Axios.put(api_endpoint + '/users/' + me.id, me, this.getApiHeader())
             this.setData({ user: res.data, jwt: this.getJwt() })
             await History.dispatch('createHistories', { reward: payload.id, detail: 'LossPoints', amount: payload.points, users: me.id })

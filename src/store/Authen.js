@@ -27,7 +27,6 @@ export default new Vuex.Store({
             state.user = user
             state.jwt = jwt
             state.isAuthen = true
-                // console.log(state.isAuthen);
         },
         logoutSuccess(state) {
             state.user = ""

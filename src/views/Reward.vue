@@ -115,7 +115,6 @@ export default {
                 "success"
               );
               location.reload();
-              // this.fetchReward();
             } else if (res === "Sorry, You don't have enough point") {
               this.$swal(
                 "เกิดข้อผิดพลาดระหว่างการแลกรางวัล",

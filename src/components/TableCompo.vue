@@ -50,21 +50,16 @@ export default {
   async created() {
     let res = await HistoryService.getLeaderBoard(this.headtext);
     this.data_array = res.data;
-    console.log("data", this.data_array);
   },
   computed: {
     selecDate() {
       let selectedDate = [];
       this.data_array.forEach((element) => {
-        console.log(this.endDate);
         if (
           element.created_at >= this.startDate &&
           element.created_at <= this.endDate &&
           element.users.role !== 3
         ) {
-          console.log("name", element.users.username);
-          console.log("data", element.created_at);
-          console.log("point", element.amount);
           selectedDate.push(element);
         }
       });

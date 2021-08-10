@@ -236,9 +236,7 @@ export default {
     async save() {
       // if file not null then upload file to DB first
       if (this.file) {
-        console.log("saved", this.editedIndex);
         await this.uploadPicture();
-        console.log("resdata save", this.resData);
         this.editedItem.picture = this.resData.data[0].id;
       }
       // update or create object

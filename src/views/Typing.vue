@@ -10,12 +10,12 @@
       </span>
     </div>
     <br/>
-    <div class="tw-whitespace-nowrap tw-overflow-hidden tw-font-mono tw-bg-gray-700 tw-text-red-50 tw-text-xl tw-mt-4 tw-mx-auto tw-p-20 tw-pt-10 tw-pb-12" 
-      style="width: 765px; height: 100px; text-align: center;"
+    <div class=" tw-whitespace-nowrap tw-overflow-hidden  tw-bg-gray-700 tw-text-red-50 tw-text-xl tw-mt-4 tw-mx-auto tw-p-20 tw-pt-10 tw-pb-12" 
+      style="width: 765px; height: 100px; text-align: center; "
     >
       <div class="tw-whitespace-nowrap tw-overflow-hidden">
 
-        <span v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
+        <span class="tw-font-mono" v-for="data in dataCom" :key="data.id" ref="dataSpan">{{
         data
       }}</span>
     </div>
@@ -99,12 +99,6 @@ export default {
     return {
       dialog: false,
       inputField: "",
-      data_words: [
-        "test cab equal curl quick quake manic quad reach quark chord quart pace quill sack equip track squid sick quack squat poach quota eject",
-        "dabu dabe dabe dabo dake dadada i dont want u dont want me dont want",
-        "cat come coke kid pool up tie ant rat zebra vee pop opposite paleto watch livin inter thai",
-        "telephone pink teleport call comfort comfy regular coke french fried weed cocaine shark meth",
-      ],
       randomed_number: 0,
       currCursor: 0,
       allTyped: 0,
@@ -127,7 +121,6 @@ export default {
   },
   async beforeMount() {
     await this.wordConcat();
-    // this.reset();
   },
   computed: {
     dataCom() {
@@ -149,9 +142,8 @@ export default {
       this.word_set = new Set(this.word_api.join(" ").split(" "));
       this.newArr = Array.from(this.word_set.values());
     },
-    reset() {
+    async reset() {
       location.reload();
-      // this.randomed_number = Math.floor(Math.random() * this.data_words.length);
       // this.loaded = false;
       // this.dialog = false;
       // this.currCursor = 0;
@@ -166,18 +158,18 @@ export default {
       // this.word_set= new Set(),
       // this.newArr= []
 
-      // // for (let i = 0; i < this.$refs.dataSpan.length; i++) {
-      // //   this.$refs.dataSpan[i].classList.remove(
-      // //     "tw-text-black",
-      // //     "tw-bg-white",
-      // //     "tw-tw-text-red-800",
-      // //     "tw-tw-bg-red-300",
-      // //     "tw-tw-text-green-800",
-      // //     "tw-tw-bg-green-300"
-      // //   );
-      // // }
+      // for (let i = 0; i < this.$refs.dataSpan.length; i++) {
+      //   this.$refs.dataSpan[i].classList.remove(
+      //     "tw-text-black",
+      //     "tw-bg-white",
+      //     "tw-tw-text-red-800",
+      //     "tw-tw-bg-red-300",
+      //     "tw-tw-text-green-800",
+      //     "tw-tw-bg-green-300"
+      //   );
+      // }
 
-      // this.wordConcat()
+      // await this.wordConcat()
     },
     startGame() {
       this.divWord = this.data_words[this.randomed_number];
@@ -315,4 +307,9 @@ textarea {
   width: 100%;
   height: 200px;
 }
+
+.divFont {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
 </style>
